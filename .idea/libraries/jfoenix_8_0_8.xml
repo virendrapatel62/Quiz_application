@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="jfoenix-8.0.8">
+    <CLASSES>
+      <root url="jar://F:/Sofwares/programming/jar files/jfoenix-8.0.8.jar!/" />
+      <root url="jar://F:/Sofwares/programming/jar files/sqlite-jdbc-3.7.2.jar!/" />
+      <root url="jar://F:/Sofwares/programming/jar files/controlsfx-8.40.11.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://F:/Sofwares/programming/jar files/sqlite-jdbc-3.7.2.jar!/" />
+    </SOURCES>
+  </library>
+</component>
