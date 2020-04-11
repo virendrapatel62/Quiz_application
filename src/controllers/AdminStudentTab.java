@@ -2,29 +2,63 @@ package controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
+import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
-public class AdminStudentTab {
+import java.net.URL;
+import java.util.ResourceBundle;
 
+public class AdminStudentTab implements Initializable {
+
+    @FXML
     private VBox formContainer;
+    @FXML
     private JFXTextField firstName;
+    @FXML
     private JFXTextField lastName;
+    @FXML
     private JFXTextField mobileNumber;
-    private JFXCheckBox male;
-    private JFXCheckBox female;
-    private JFXButton saveButton;
-    private TableView studentTable;
-    private TableColumn studentIdColumn;
-    private TableColumn firstNameColumn;
-    private TableColumn lastNameColumn;
-    private TableColumn mobileNumberColumn;
-    private TableColumn genderColumn;
+    @FXML private JFXRadioButton male;
+    @FXML private JFXRadioButton female;
+    @FXML private JFXButton saveButton;
+    @FXML private TableView studentTable;
+    @FXML private TableColumn studentIdColumn;
+    @FXML private TableColumn firstNameColumn;
+    @FXML private TableColumn lastNameColumn;
+    @FXML private TableColumn mobileNumberColumn;
+    @FXML private TableColumn genderColumn;
 
-    public void saveStudent(MouseEvent mouseEvent) {
-        System.out.println("Save Button Clicked...");
+//     Non FXML Varibales
+    private ToggleGroup toggleGroup;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        initAll();
+        radioButtonSetup();
     }
+
+
+    private void radioButtonSetup(){
+        this.male.setToggleGroup(toggleGroup);
+        this.female.setToggleGroup(toggleGroup);
+    }
+
+    private void initAll(){
+        toggleGroup = new ToggleGroup();
+    }
+
+    public void saveStudent(ActionEvent actionEvent) {
+        System.out.println("Button Clicked...");
+        System.out.println(formContainer);
+        System.out.println(this.male);
+    }
+
 }

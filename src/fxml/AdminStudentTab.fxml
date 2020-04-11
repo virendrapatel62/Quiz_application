@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
+<?import com.jfoenix.controls.JFXRadioButton?>
 <AnchorPane prefHeight="415.0" prefWidth="630.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdminStudentTab">
    <children>
       <SplitPane dividerPositions="0.25" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -64,22 +64,22 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                         </Label>
-                        <JFXCheckBox fx:id="male" text="Male">
+                        <JFXRadioButton fx:id="male" text="Male">
                            <padding>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
-                        </JFXCheckBox>
-                        <JFXCheckBox fx:id="female" text="Femle">
+                        </JFXRadioButton>
+                        <JFXRadioButton fx:id="female" text="Femle">
                            <padding>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
-                        </JFXCheckBox>
-                        <Separator onDragDetected="#saveStudent" prefHeight="21.0" prefWidth="165.0">
+                        </JFXRadioButton>
+                        <Separator  prefHeight="21.0" prefWidth="165.0">
                            <padding>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                         </Separator>
-                        <JFXButton fx:id="saveButton" text="Save Student">
+                        <JFXButton fx:id="saveButton" onAction="#saveStudent" text="Save Student">
                            <font>
                               <Font size="15.0" />
                            </font>
