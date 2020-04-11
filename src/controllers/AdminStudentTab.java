@@ -57,8 +57,23 @@ public class AdminStudentTab implements Initializable {
 
     public void saveStudent(ActionEvent actionEvent) {
         System.out.println("Button Clicked...");
-        System.out.println(formContainer);
-        System.out.println(this.male);
+
+        String firstName = this.firstName.getText();
+        String lastName = this.lastName.getText();
+        String mobile = this.mobileNumber.getText();
+        String stringGender = "Male";
+        JFXRadioButton gender =(JFXRadioButton)toggleGroup.getSelectedToggle();
+        if(gender != null){
+            if(gender == female){
+                stringGender = "Female";
+            }
+        }
+
+        System.out.println(firstName  + "\n " +
+                lastName + "\n " +
+                mobile + "\n " +
+                stringGender);
+
     }
 
 }
