@@ -95,7 +95,6 @@ public class AdminStudentTab implements Initializable {
                 lastName + "\n " +
                 mobile + "\n " +
                 stringGender);
-
     }
 
 }
