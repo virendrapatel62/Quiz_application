@@ -66,7 +66,7 @@ public class Quiz {
             System.out.println(b);
             connection.close();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            System.out.println(ex.getMessage());
         }
     }
 

@@ -142,7 +142,7 @@ public class Question {
             System.out.println(b);
 
         }catch(Exception ex){
-            ex.printStackTrace();
+            System.out.println(ex.getMessage());
         }
     }
     
