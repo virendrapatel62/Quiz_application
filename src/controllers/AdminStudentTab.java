@@ -4,11 +4,13 @@ import com.jfoenix.controls.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import models.Student;
 import org.controlsfx.control.Notifications;
 
 import java.net.URL;
@@ -57,6 +59,14 @@ public class AdminStudentTab implements Initializable {
         toggleGroup = new ToggleGroup();
     }
 
+    private void resetForm(){
+        this.password.clear();
+        this.email.clear();
+        this.firstName.clear();
+        this.lastName.clear();
+        this.mobileNumber.clear();
+    }
+
     public void saveStudent(ActionEvent actionEvent) {
         System.out.println("Button Clicked...");
 
@@ -65,12 +75,12 @@ public class AdminStudentTab implements Initializable {
         String mobile = this.mobileNumber.getText().trim();
         String email = this.email.getText().trim();
         String password = this.password.getText().trim();
-        String stringGender = "Male";
+        Character gen = 'M';
         JFXRadioButton gender =(JFXRadioButton)toggleGroup.getSelectedToggle();
 
         if(gender != null){
             if(gender == female){
-                stringGender = "Female";
+                gen = 'F';
             }
         }
 
@@ -96,16 +106,39 @@ public class AdminStudentTab implements Initializable {
             Notifications.create()
                     .title("Fill Student Form Correctly")
                     .text(message)
-                    .showError();
+                    .showWarning();
 
             return;
         }
 
-        // save code will be here
-        System.out.println(firstName  + "\n " +
-                lastName + "\n " +
-                mobile + "\n " +
-                stringGender);
+        // save student
+//        String firstName, String lastName,
+//                String mobile,
+//                Character gender, String email, String password
+        Student s = new Student(
+                firstName ,
+                lastName ,
+                mobile ,
+                gen ,
+                email ,
+                password
+        );
+
+        boolean result = s.save();
+        if(result){
+            Notifications.create().text("Student Registered..")
+                    .title("Success")
+                    .position(Pos.TOP_RIGHT)
+                    .showInformation();
+            this.resetForm();
+        }else{
+            Notifications.create().text("Student Registation Failed...")
+                    .title("Failed..")
+                    .position(Pos.TOP_RIGHT)
+                    .showError();
+        }
+
+
     }
 
 }

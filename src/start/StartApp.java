@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import models.Question;
 import models.Quiz;
+import models.Student;
 
 public class StartApp extends Application {
 
@@ -33,6 +34,7 @@ public class StartApp extends Application {
     private void createTables(){
         Quiz.createTable();
         Question.createTable();
+        Student.createTable();
     }
     
 }
