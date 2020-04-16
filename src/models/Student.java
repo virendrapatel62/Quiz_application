@@ -1,13 +1,28 @@
 package models;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
 public class Student {
     private Integer id;
     private String firstName;
     private String lastName;
-    private String mobile ;
+    private String mobile;
     private Character gender;
-    private String email ;
-    private String password ;
+    private String email;
+    private String password;
+
+    private static class MetaData {
+        public static final String TABLE_NAME = "students";
+        public static final String ID = "ID";
+        public static final String MOBILE = "mobile";
+        public static final String LAST_NAME = "lastname";
+        public static final String FIRST_NAME = "firstName";
+        public static final String GENDER = "gender";
+        public static final String EMAIL = "email";
+        public static final String PASSWORD = "password";
+    }
 
     public Student(String firstName, String lastName, String mobile, Character gender, String email, String password) {
         this.firstName = firstName;
@@ -96,4 +111,81 @@ public class Student {
     public String getPassword() {
         return password;
     }
+
+
+    //    create table
+    public static void createTable() {
+        String raw = "CREATE TABLE IF NOT EXISTS %s ( \n" +
+                "  %s INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                "  %s VARCHAR(20),\n" +
+                "  %s VARCHAR(20),\n" +
+                "  %s VARCHAR(20),\n" +
+                "  %s VARCHAR(20),\n" +
+                "  %s VARCHAR(20),\n" +
+                "  %s char )";
+        String query = String.format(raw,
+                MetaData.TABLE_NAME,
+                MetaData.ID,
+                MetaData.FIRST_NAME,
+                MetaData.LAST_NAME,
+                MetaData.MOBILE,
+                MetaData.EMAIL,
+                MetaData.PASSWORD,
+                MetaData.GENDER
+        );
+
+        System.out.println(query);
+        try {
+            String connectionUrl = "jdbc:sqlite:quiz.db";
+            Class.forName("org.sqlite.JDBC");
+            Connection connection = DriverManager.getConnection(connectionUrl);
+            PreparedStatement ps = connection.prepareStatement(query);
+            boolean b = ps.execute();
+            System.out.println("models.Student.createTable()");
+            System.out.println(b);
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    // save student
+
+    public boolean save(){
+        String raw = "INSERT into students (%s , %s , %s , %s , %s ,%s )\n" +
+                "values ( ? , ? , ? , ? , ? , ?);";
+
+        String query = String.format(raw ,
+                MetaData.FIRST_NAME ,
+                MetaData.LAST_NAME ,
+                MetaData.MOBILE ,
+                MetaData.EMAIL ,
+                MetaData.PASSWORD ,
+                MetaData.GENDER
+                );
+        String connectionUrl = "jdbc:sqlite:quiz.db";
+        try
+        {
+            Class.forName("org.sqlite.JDBC");
+            try (Connection connection = DriverManager.getConnection(connectionUrl)) {
+
+                PreparedStatement ps = connection.prepareStatement(query);
+                ps.setString(1 , this.firstName );
+                ps.setString(2 , this.lastName );
+                ps.setString(3 , this.mobile );
+                ps.setString(4 , this.email );
+                ps.setString(5 , this.password );
+                ps.setString(6 , String.valueOf(this.gender));
+                int i = ps.executeUpdate();
+                System.out.println("Updated Rows : " + i);
+                return true;
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+
+
 }
