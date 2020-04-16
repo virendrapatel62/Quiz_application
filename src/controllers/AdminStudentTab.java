@@ -13,6 +13,7 @@ import org.controlsfx.control.Notifications;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 public class AdminStudentTab implements Initializable {
 
@@ -74,14 +75,16 @@ public class AdminStudentTab implements Initializable {
         }
 
         String message = null;
+        Pattern p = Pattern.compile("^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+(?:[a-zA-Z]{2}|aero|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel)$");
+
 
         if(firstName.length() < 4){
             message = "First Name must be more then 4 char long";
         }else if(lastName.length() < 2){
             message = "Last Name must be more than 2 char long";
 
-        }else if(email.length() < 4){
-            message = "Enter Valid Email";
+        }else if(!p.matcher(email).matches()){
+            message = "Please Enter Valid Email..";
         }else if(password.length() <= 6){
             message = "password must be more than 6 char long";
         }
