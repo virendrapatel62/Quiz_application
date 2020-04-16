@@ -1,8 +1,6 @@
 package models;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
+import java.sql.*;
 
 public class Student {
     private Integer id;
@@ -151,7 +149,7 @@ public class Student {
 
     // save student
 
-    public boolean save(){
+    public Student save(){
         String raw = "INSERT into students (%s , %s , %s , %s , %s ,%s )\n" +
                 "values ( ? , ? , ? , ? , ? , ?);";
 
@@ -169,7 +167,7 @@ public class Student {
             Class.forName("org.sqlite.JDBC");
             try (Connection connection = DriverManager.getConnection(connectionUrl)) {
 
-                PreparedStatement ps = connection.prepareStatement(query);
+                PreparedStatement ps = connection.prepareStatement(query , Statement.RETURN_GENERATED_KEYS);
                 ps.setString(1 , this.firstName );
                 ps.setString(2 , this.lastName );
                 ps.setString(3 , this.mobile );
@@ -177,8 +175,39 @@ public class Student {
                 ps.setString(5 , this.password );
                 ps.setString(6 , String.valueOf(this.gender));
                 int i = ps.executeUpdate();
+                ResultSet keys = ps.getGeneratedKeys();
+                if(keys.next()){
+                    this.id  = keys.getInt(1);
+                }
                 System.out.println("Updated Rows : " + i);
-                return true;
+                return this;
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public boolean isExists(){
+
+        String query = String.format("select * from %s where %s = ?;" ,
+                MetaData.TABLE_NAME ,
+                MetaData.EMAIL
+        );
+        String connectionUrl = "jdbc:sqlite:quiz.db";
+        try
+        {
+            Class.forName("org.sqlite.JDBC");
+            try (Connection connection = DriverManager.getConnection(connectionUrl)) {
+
+                PreparedStatement ps = connection.prepareStatement(query);
+                ps.setString(1 , this.email );
+
+                ResultSet result = ps.executeQuery();
+                if(result.next()){
+                    return true;
+                }
             }
         }catch (Exception ex){
             ex.printStackTrace();

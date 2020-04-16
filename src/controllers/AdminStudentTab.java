@@ -123,9 +123,21 @@ public class AdminStudentTab implements Initializable {
                 email ,
                 password
         );
+        System.out.println(s);
 
-        boolean result = s.save();
-        if(result){
+        if(s.isExists()){
+            Notifications.create()
+                    .title("Failed..")
+                    .text("Student Already Registered...")
+                    .showError();
+
+            return;
+        }
+
+
+        s = s.save();
+        System.out.println(s);
+        if(s != null){
             Notifications.create().text("Student Registered..")
                     .title("Success")
                     .position(Pos.TOP_RIGHT)
@@ -137,8 +149,6 @@ public class AdminStudentTab implements Initializable {
                     .position(Pos.TOP_RIGHT)
                     .showError();
         }
-
-
     }
 
 }
