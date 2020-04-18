@@ -67,6 +67,27 @@ public class AdminStudentTab implements Initializable {
         this.mobileNumber.clear();
     }
 
+    private String validate(Student student){
+        String message = null;
+        Pattern p = Pattern.compile("^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+(?:[a-zA-Z]{2}|aero|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel)$");
+
+
+        if(student.getFirstName().length() < 4){
+            message = "First Name must be more then 4 char long";
+        }else if(student.getLastName().length() < 2){
+            message = "Last Name must be more than 2 char long";
+
+        }else if(!p.matcher(student.getEmail()).matches()){
+            message = "Please Enter Valid Email..";
+        }else if(student.getPassword().length() <= 6){
+            message = "password must be more than 6 char long";
+        }
+        else if(student.getMobile().length() < 10){
+            message  = "Enter valid contact number ";
+        }
+        return message;
+    }
+
     public void saveStudent(ActionEvent actionEvent) {
         System.out.println("Button Clicked...");
 
@@ -85,22 +106,16 @@ public class AdminStudentTab implements Initializable {
         }
 
         String message = null;
-        Pattern p = Pattern.compile("^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+(?:[a-zA-Z]{2}|aero|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel)$");
 
-
-        if(firstName.length() < 4){
-            message = "First Name must be more then 4 char long";
-        }else if(lastName.length() < 2){
-            message = "Last Name must be more than 2 char long";
-
-        }else if(!p.matcher(email).matches()){
-            message = "Please Enter Valid Email..";
-        }else if(password.length() <= 6){
-            message = "password must be more than 6 char long";
-        }
-        else if(mobile.length() < 10){
-            message  = "Enter valid contact number ";
-        }
+        Student s = new Student(
+                firstName ,
+                lastName ,
+                mobile ,
+                gen ,
+                email ,
+                password
+        );
+        message = this.validate(s);
 
         if(message != null ){
             Notifications.create()
@@ -111,18 +126,6 @@ public class AdminStudentTab implements Initializable {
             return;
         }
 
-        // save student
-//        String firstName, String lastName,
-//                String mobile,
-//                Character gender, String email, String password
-        Student s = new Student(
-                firstName ,
-                lastName ,
-                mobile ,
-                gen ,
-                email ,
-                password
-        );
         System.out.println(s);
 
         if(s.isExists()){
@@ -136,7 +139,7 @@ public class AdminStudentTab implements Initializable {
 
 
         s = s.save();
-        System.out.println(s);
+
         if(s != null){
             Notifications.create().text("Student Registered..")
                     .title("Success")
