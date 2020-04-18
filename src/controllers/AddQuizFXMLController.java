@@ -1,10 +1,8 @@
 
 package controllers;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXRadioButton;
-import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,7 +27,8 @@ import org.controlsfx.control.Notifications;
  * @author dell
  */
 public class AddQuizFXMLController implements Initializable {
-
+    @FXML
+    private JFXTreeView treeView;
     @FXML
     private JFXTextField quizTitle;
     @FXML
@@ -192,10 +191,12 @@ public class AddQuizFXMLController implements Initializable {
            flag = quiz.save(questions);
            if(flag){
                // success
+               this.quizTitle.setDisable(false);
                Notifications.create()
                     .title("Success").position(Pos.CENTER)
                     .darkStyle().text("Quiz Successfully Saved...")
                     .showInformation();
+
            }else{
                // eoor
                Notifications.create()

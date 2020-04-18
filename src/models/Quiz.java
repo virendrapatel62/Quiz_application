@@ -1,11 +1,7 @@
 package models;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
+import java.sql.*;
+import java.util.*;
 
 public class Quiz {
     // Properties
@@ -105,7 +101,95 @@ public class Quiz {
         }
         return flag;
     }
-    
-    
 
+    public static Map<Quiz , List<Question>> getAll(){
+        Map<Quiz , List<Question>> quizes = new HashMap<>();
+        Quiz key = null;
+
+        String query = String.
+                format("SELECT %s.%s , %s  ," +
+                        " %s , %s , " +
+                        "%s , %s ," +
+                        " %s , %s , \n" +
+                        "%s\n" +
+                        "FROM %s join %s on %s.%s = %s.%s",
+                        MetaData.TABLE_NAME,
+                        MetaData.QUIZ_ID ,
+                        MetaData.TITLe ,
+                        Question.MetaData.QUESTION_ID,
+                        Question.MetaData.QUESTION,
+                        Question.MetaData.OPTION1,
+                        Question.MetaData.OPTION2,
+                        Question.MetaData.OPTION3,
+                        Question.MetaData.OPTION4,
+                        Question.MetaData.ANSWER ,
+                        MetaData.TABLE_NAME,
+                        Question.MetaData.TABLE_NAME,
+                        Question.MetaData.TABLE_NAME,
+                        Question.MetaData.QUIZ_ID,
+                        MetaData.TABLE_NAME,
+                        MetaData.QUIZ_ID
+                        );
+        String connectionUrl = "jdbc:sqlite:quiz.db";
+        System.out.println(query);
+        try {
+            Class.forName("org.sqlite.JDBC");
+            try (Connection connection = DriverManager.getConnection(connectionUrl)) {
+
+                PreparedStatement ps = connection.prepareStatement(query);
+                ResultSet result = ps.executeQuery();
+
+                while(result.next()){
+                    Quiz temp = new Quiz();
+                    temp.setQuizId(result.getInt(1));
+                    temp.setTitle(result.getString(2));
+
+                    Question tempQuestion = new Question();
+                    tempQuestion.setQuestionId(result.getInt(3));
+                    tempQuestion.setQuestion(result.getString(4));
+                    tempQuestion.setOption1(result.getString(5));
+                    tempQuestion.setOption2(result.getString(6));
+                    tempQuestion.setOption3(result.getString(7));
+                    tempQuestion.setOption4(result.getString(8));
+                    tempQuestion.setAnswer(result.getString(9));
+
+                    if(key!=null && key.equals(temp)){
+                        quizes.get(key).add(tempQuestion);
+                    }else{
+                        ArrayList<Question> value = new ArrayList<>();
+                        value.add(tempQuestion);
+                        quizes.put(temp, value);
+                    }
+
+                    key = temp;
+
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return quizes;
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null)
+                return false;
+
+        if(!(obj instanceof Quiz))
+            return  false;
+        Quiz t = (Quiz)obj;
+
+        if(this.quizId == t.quizId){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(quizId, title);
+    }
 }
