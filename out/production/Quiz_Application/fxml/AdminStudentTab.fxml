@@ -138,6 +138,8 @@
                       <TableColumn fx:id="studentIdColumn" prefWidth="75.0" text="Student Id" />
                       <TableColumn fx:id="firstNameColumn" prefWidth="75.0" text="First Name" />
                         <TableColumn fx:id="lastNameColumn" prefWidth="75.0" text="Last Name" />
+                        <TableColumn fx:id="emailColumn" prefWidth="75.0" text="Email" />
+                        <TableColumn fx:id="passwordColumn" prefWidth="75.0" text="Password" />
                         <TableColumn fx:id="mobileNumberColumn" prefWidth="75.0" text="Mobile Number" />
                         <TableColumn fx:id="genderColumn" prefWidth="75.0" text="Gender" />
                     </columns>

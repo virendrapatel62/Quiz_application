@@ -8,16 +8,19 @@ import javafx.geometry.Pos;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import models.Student;
 import org.controlsfx.control.Notifications;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 public class AdminStudentTab implements Initializable {
+
 
     @FXML private JFXPasswordField password;
     @FXML private JFXTextField email;
@@ -32,12 +35,14 @@ public class AdminStudentTab implements Initializable {
     @FXML private JFXRadioButton male;
     @FXML private JFXRadioButton female;
     @FXML private JFXButton saveButton;
-    @FXML private TableView studentTable;
-    @FXML private TableColumn studentIdColumn;
-    @FXML private TableColumn firstNameColumn;
-    @FXML private TableColumn lastNameColumn;
-    @FXML private TableColumn mobileNumberColumn;
-    @FXML private TableColumn genderColumn;
+    @FXML private TableView<Student> studentTable;
+    @FXML private TableColumn<Student , String> studentIdColumn;
+    @FXML private TableColumn<Student , String> firstNameColumn;
+    @FXML private TableColumn<Student , String> lastNameColumn;
+    @FXML private TableColumn<Student , String> mobileNumberColumn;
+    @FXML private TableColumn<Student , Character> genderColumn;
+    @FXML private TableColumn<Student , String> emailColumn;
+    @FXML private TableColumn<Student , String> passwordColumn;
 
 //     Non FXML Varibales
     private ToggleGroup toggleGroup;
@@ -46,6 +51,22 @@ public class AdminStudentTab implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         initAll();
         radioButtonSetup();
+        renderTable();
+    }
+
+    private void renderTable() {
+        List<Student> students = Student.getAll();
+        studentTable.getItems().clear();
+
+        this.studentIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        this.firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        this.lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        this.mobileNumberColumn.setCellValueFactory(new PropertyValueFactory<>("mobile"));
+        this.emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+        this.passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
+        this.genderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
+
+        studentTable.getItems().addAll(students);
     }
 
 
@@ -146,6 +167,8 @@ public class AdminStudentTab implements Initializable {
                     .position(Pos.TOP_RIGHT)
                     .showInformation();
             this.resetForm();
+
+            studentTable.getItems().add(0 , s);
         }else{
             Notifications.create().text("Student Registation Failed...")
                     .title("Failed..")
