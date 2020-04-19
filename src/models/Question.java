@@ -47,6 +47,11 @@ public class Question {
         this.answer = answer;
     }
 
+    @Override
+    public String toString() {
+        return this.question;
+    }
+
     // Getter Setters
     public Quiz getQuiz() {
         return quiz;

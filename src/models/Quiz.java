@@ -44,7 +44,7 @@ public class Quiz {
 
     @Override
     public String toString() {
-        return "Quiz{" + "quizId=" + quizId + ", title=" + title + '}';
+        return this.title;
     }
 
     // Other Methods
