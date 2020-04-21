@@ -1,9 +1,11 @@
+import exceptions.LoginException;
 import models.Student;
 
 import java.util.regex.Pattern;
 
 public class test {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
+
     }
 }
 //

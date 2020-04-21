@@ -1,5 +1,7 @@
 package models;
 
+import exceptions.LoginException;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -28,6 +30,11 @@ public class Student {
         this.lastName = lastName;
         this.mobile = mobile;
         this.gender = gender;
+        this.email = email;
+        this.password = password;
+    }
+
+    public Student(String email, String password) {
         this.email = email;
         this.password = password;
     }
@@ -266,5 +273,40 @@ public class Student {
     }
 
 
+    public void login() throws SQLException , ClassNotFoundException , LoginException{
 
-}
+        String query = String.format("select %s , %s , %s, %s , %s " +
+                        " from %s where %s = ? and %s = ?;" ,
+                MetaData.ID ,
+                MetaData.FIRST_NAME ,
+                MetaData.LAST_NAME ,
+                MetaData.MOBILE ,
+                MetaData.GENDER ,
+                MetaData.TABLE_NAME ,
+                MetaData.EMAIL,
+                MetaData.PASSWORD
+        );
+
+        System.out.println(query);
+        String connectionUrl = "jdbc:sqlite:quiz.db";
+            Class.forName("org.sqlite.JDBC");
+            try (Connection connection = DriverManager.getConnection(connectionUrl)) {
+
+                PreparedStatement ps = connection.prepareStatement(query);
+                ps.setString(1 , this.email );
+                ps.setString(2 , this.password );
+
+                ResultSet result = ps.executeQuery();
+                if(result.next()){
+                    this.setId(result.getInt(1));
+                    this.setFirstName(result.getString(2));
+                    this.setLastName(result.getString(3));
+                    this.setMobile(result.getString(4));
+                    this.setGender(result.getString(5).charAt(0));
+                }else{
+                    throw new LoginException("Login Failed..");
+                }
+            }
+        }
+    }
+

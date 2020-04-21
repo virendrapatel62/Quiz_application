@@ -3,6 +3,8 @@ package controllers;
 import constants.AdminEmailPassword;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import exceptions.LoginException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +16,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import models.Student;
+import org.controlsfx.control.Notifications;
+
 public class LoginController implements Initializable {
     @FXML
     private TextField adminEmail;
@@ -61,7 +66,20 @@ public class LoginController implements Initializable {
     @FXML
     private void loginStudent(ActionEvent event) {
         System.out.println("controllers.AdminLoginController.loginStudent()");
-        
+        Student s = new Student(this.studentEmail.getText() ,this.studentPassword.getText() );
+        try{
+            s.login();
+            System.out.println(s);
+        }catch (Exception ex){
+           if(ex instanceof LoginException){
+               Notifications.create()
+                       .title("Login Failed..")
+                       .text("Email or password incorrect")
+                       .showError();
+           }
+        }
+
+
     }
     
 }
