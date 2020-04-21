@@ -46,7 +46,7 @@ public class LoginController implements Initializable {
         if(email.trim().equalsIgnoreCase(AdminEmailPassword.email) && password.trim().equalsIgnoreCase(AdminEmailPassword.password)){
             
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("fxml/AdminHomeScreenFXML.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/fxml/AdminHomeScreenFXML.fxml"));
                 Stage stage = (Stage)studentPassword.getScene().getWindow();
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
@@ -68,8 +68,21 @@ public class LoginController implements Initializable {
         System.out.println("controllers.AdminLoginController.loginStudent()");
         Student s = new Student(this.studentEmail.getText() ,this.studentPassword.getText() );
         try{
-            s.login();
+//            s.login();
             System.out.println(s);
+
+            try {
+                Parent root = FXMLLoader.load(getClass().
+                        getResource("/fxml/student/StudentMainScreen.fxml"));
+                Stage stage = (Stage)studentPassword.getScene().getWindow();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.setMaximized(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+
         }catch (Exception ex){
            if(ex instanceof LoginException){
                Notifications.create()
