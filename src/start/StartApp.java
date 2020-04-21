@@ -17,11 +17,11 @@ public class StartApp extends Application {
     }
     @Override
     public void start(Stage primaryStage) throws Exception {
-//        Parent root = FXMLLoader.load(getClass().getResource("/AdminLogin.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/loginFXML.fxml"));
         
         createTables();
-        Parent root = FXMLLoader.load(getClass().
-                getResource("../fxml/AdminHomeScreenFXML.fxml"));
+//        Parent root = FXMLLoader.load(getClass().
+//                getResource("../fxml/AdminHomeScreenFXML.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(root);
         stage.setScene(scene);

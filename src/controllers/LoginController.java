@@ -1,3 +1,4 @@
+package controllers;
 
 import constants.AdminEmailPassword;
 import java.net.URL;
@@ -13,7 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-public class AdminLoginController implements Initializable {
+public class LoginController implements Initializable {
     @FXML
     private TextField adminEmail;
     @FXML
@@ -54,12 +55,12 @@ public class AdminLoginController implements Initializable {
         }else{
             System.out.println("Admin Login Failed.");
         }
-        System.out.println("AdminLoginController.loginAdmin()");
+        System.out.println("controllers.AdminLoginController.loginAdmin()");
     }
 
     @FXML
     private void loginStudent(ActionEvent event) {
-        System.out.println("AdminLoginController.loginStudent()");
+        System.out.println("controllers.AdminLoginController.loginStudent()");
         
     }
     

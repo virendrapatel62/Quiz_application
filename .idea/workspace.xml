@@ -92,6 +92,9 @@
     <property name="settings.editor.selected.configurable" value="preferences.JavaFX" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\dell\IdeaProjects\Quiz_application\src\fxml" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\dell\IdeaProjects\Quiz_application" />
     </key>
@@ -108,7 +111,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Test">
+  <component name="RunManager" selected="Application.Main">
     <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
       <option name="VMOptions" />
       <option name="arguments" />
@@ -208,8 +211,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Test" />
         <item itemvalue="Application.test" />
+        <item itemvalue="Application.Test" />
       </list>
     </recent_temporary>
   </component>
