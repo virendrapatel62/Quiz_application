@@ -18,6 +18,14 @@ public class QuizCardLayoutFXMLController implements Initializable {
 
     }
 
+    public void setNoq(String value) {
+        this.noq.setText(value);
+    }
+
+    public void setTitle(String value) {
+        this.title.setText(value);
+    }
+
     public void startQuiz(ActionEvent actionEvent) {
     }
 }
