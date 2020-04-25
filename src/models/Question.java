@@ -127,7 +127,7 @@ public class Question {
                             "%s VARCHAR(500) ," +
                                 "%s VARCHAR(500) , %s INTEGER ,"+
                                "FOREIGN KEY (%s) REFERENCES %s(%s))";
-        String query  = String.format(raw, MetaData.QUESTION_ID , MetaData.TABLE_NAME ,
+        String query  = String.format(raw, MetaData.TABLE_NAME , MetaData.QUESTION_ID ,
                                         MetaData.OPTION1 , 
                                         MetaData.OPTION2 , 
                                         MetaData.OPTION3 , 

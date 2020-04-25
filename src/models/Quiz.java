@@ -91,7 +91,7 @@ public class Quiz {
         return -1;
     }
     
-    public boolean save(ArrayList<Question> questions){
+    public boolean save(List<Question> questions){
         boolean flag = true;
         this.quizId = this.save();
         

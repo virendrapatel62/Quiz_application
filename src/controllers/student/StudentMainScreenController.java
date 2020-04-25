@@ -1,11 +1,16 @@
 package controllers.student;
 
 import com.jfoenix.controls.JFXButton;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import listeners.NewScreenListener;
 
 import java.io.IOException;
 import java.net.URL;
@@ -22,6 +27,10 @@ public class StudentMainScreenController implements Initializable {
         addQuizListScreen();
     }
 
+    private void addScreenToStackPane(Node node){
+        this.stackPanel.getChildren().add(node);
+    }
+
 
     private void addQuizListScreen(){
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().
@@ -29,9 +38,31 @@ public class StudentMainScreenController implements Initializable {
 
         try {
             Node node = fxmlLoader.load();
+            QuizListController quizListController = fxmlLoader.getController();
+            quizListController.setScreenListener(new NewScreenListener() {
+                @Override
+                public void ChangeScreen(Node node) {
+                    addScreenToStackPane(node);
+                }
+
+                @Override
+                public void handle(Event event) {
+
+                }
+            });
             stackPanel.getChildren().add(node);
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void back(ActionEvent actionEvent) {
+        ObservableList<Node> nodes = this.stackPanel.getChildren();
+        if(nodes.size() == 1){
+            return;
+        }
+        this.stackPanel.getChildren().remove(nodes.size()-1);
     }
 }

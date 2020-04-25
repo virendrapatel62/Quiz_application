@@ -84,19 +84,21 @@
     <property name="OverrideImplement.combined" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="dynamic.classpath" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="last_opened_file_path" value="F:/Sofwares/programming/jar files/JAR Files-20181003T134417Z-001/JAR Files/json_jar/json-java.jar!/" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
     <property name="settings.editor.selected.configurable" value="preferences.JavaFX" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\dell\IdeaProjects\Quiz_application\src\fxml" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\dell\IdeaProjects\Quiz_application\src\util\sample_data" />
       <recent name="C:\Users\dell\IdeaProjects\Quiz_application" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\dell\IdeaProjects\Quiz_application\src\util\sample_data\quizzes" />
+      <recent name="C:\Users\dell\IdeaProjects\Quiz_application\src\fxml" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -126,6 +128,20 @@
     </configuration>
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DataCollector" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="util.DataCollector" />
+      <module name="Quiz_Application" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="util.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -208,10 +224,12 @@
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.Test" />
       <item itemvalue="Application.test" />
+      <item itemvalue="Application.DataCollector" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.test" />
+        <item itemvalue="Application.DataCollector" />
         <item itemvalue="Application.Test" />
       </list>
     </recent_temporary>
@@ -249,5 +267,10 @@
   <component name="VcsManagerConfiguration">
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Quiz_application$Main.ic" NAME="Main Coverage Results" MODIFIED="1587835761560" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>sample.*</FILTER>
+    </SUITE>
   </component>
 </project>

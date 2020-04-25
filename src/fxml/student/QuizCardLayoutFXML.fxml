@@ -10,12 +10,9 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="162.0" prefWidth="290.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.student.QuizCardLayoutFXMLController">
+<AnchorPane prefHeight="129.0" prefWidth="290.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.student.QuizCardLayoutFXMLController">
    <children>
-      <VBox layoutX="14.0" layoutY="-56.0" prefHeight="158.0" prefWidth="294.0" AnchorPane.bottomAnchor="-6.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-         </padding>
+      <VBox layoutX="14.0" layoutY="-56.0" prefHeight="138.0" prefWidth="280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label fx:id="title" text="Quiz Title" wrapText="true">
                <VBox.margin>
@@ -46,9 +43,12 @@
                </VBox.margin>
             </FlowPane>
          </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
       </VBox>
    </children>
    <effect>
-      <DropShadow blurType="TWO_PASS_BOX" color="#c3c1c1" height="44.72" radius="18.8975" spread="0.21" width="32.87" />
+      <DropShadow blurType="TWO_PASS_BOX" color="#c3c1c1" height="14.83" radius="6.915" width="14.83" />
    </effect>
 </AnchorPane>
