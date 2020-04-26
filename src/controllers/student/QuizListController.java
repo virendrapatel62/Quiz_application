@@ -34,7 +34,7 @@ public class QuizListController implements Initializable {
             try {
                 Node node = fxmlLoader.load();
                 QuizCardLayoutFXMLController quizCardLayoutFXMLController = fxmlLoader.getController();
-                quizCardLayoutFXMLController.setTitle(quiz.getTitle());
+                quizCardLayoutFXMLController.setQuiz(quiz);
                 quizCardLayoutFXMLController.setNoq(quizzes.get(quiz) + "");
                 quizCardLayoutFXMLController.setScreenListener(this.screenListener);
                 quizListContainer.getChildren().add(node);

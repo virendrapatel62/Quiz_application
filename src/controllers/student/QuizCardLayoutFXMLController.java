@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import listeners.NewScreenListener;
+import models.Quiz;
 
 import java.io.IOException;
 import java.net.URL;
@@ -18,8 +19,14 @@ public class QuizCardLayoutFXMLController implements Initializable {
     public Label title;
     public Label noq;
     public JFXButton startButton;
+    private Quiz quiz;
 
     private NewScreenListener screenListener;
+
+    public void setQuiz(Quiz quiz) {
+        this.quiz = quiz;
+        this.title.setText(this.quiz.getTitle());
+    }
 
     public void setScreenListener(NewScreenListener screenListener) {
         this.screenListener = screenListener;
@@ -34,9 +41,6 @@ public class QuizCardLayoutFXMLController implements Initializable {
         this.noq.setText(value);
     }
 
-    public void setTitle(String value) {
-        this.title.setText(value);
-    }
 
     public void startQuiz(ActionEvent actionEvent) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().
@@ -44,6 +48,8 @@ public class QuizCardLayoutFXMLController implements Initializable {
 
         try {
             Node node = fxmlLoader.load();
+            QuestionsScreenController questionsScreenController= fxmlLoader.getController();
+                questionsScreenController.setQuiz(this.quiz);
             this.screenListener.ChangeScreen(node);
         } catch (IOException e) {
             e.printStackTrace();
