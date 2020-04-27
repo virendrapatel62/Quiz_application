@@ -77,7 +77,26 @@ public class QuestionsScreenController implements Initializable {
         if(quiz != null){
             this.questionList = quiz.getQuestions();
             Collections.shuffle(this.questionList);
+            renderProgress();
             setNextQuestion();
+
+        }
+    }
+
+    private void renderProgress(){
+        for(int i = 0 ; i < this.questionList.size() ; i ++){
+            FXMLLoader fxmlLoader = new FXMLLoader(
+                    getClass()
+                            .getResource("/fxml/student/ProgressCircleFXML.fxml"));
+            try {
+                Node node = fxmlLoader.load();
+                ProgressCircleFXMLController progressCircleFXMLController = fxmlLoader.getController();
+                progressCircleFXMLController.setNumber(i+1);
+                progressCircleFXMLController.setDefaultColor();
+                progressPane.getChildren().add(node);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -89,20 +108,6 @@ public class QuestionsScreenController implements Initializable {
         this.questionsObservable = new QuestionsObservable();
         bindFields();
 
-
-
-        for(int i = 0 ; i < 20 ; i ++){
-            FXMLLoader fxmlLoader = new FXMLLoader(
-                    getClass()
-                            .getResource("/fxml/student/ProgressCircleFXML.fxml"));
-            try {
-                Node node = fxmlLoader.load();
-                progressPane.getChildren().add(node);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
     }
 
     private void bindFields(){
@@ -110,14 +115,41 @@ public class QuestionsScreenController implements Initializable {
         this.option4.textProperty().bind(this.questionsObservable.option4);
         this.option3.textProperty().bind(this.questionsObservable.option3);
         this.option2.textProperty().bind(this.questionsObservable.option2);
-        this.option1.textProperty().bind(this.questionsObservable.option3);
+        this.option1.textProperty().bind(this.questionsObservable.option1);
     }
 
     public void nextQuestions(ActionEvent actionEvent) {
+        boolean isRight = false;
+        {
+            // checking answer
+            JFXRadioButton selectedButton = (JFXRadioButton)options.getSelectedToggle();
+            String userAnswer = selectedButton.getText();
+            String rightAnswer = this.currentQuestion.getAnswer();
+            if(userAnswer.trim().equalsIgnoreCase(rightAnswer.trim())){
+                isRight = true;
+            }
+        }
+        Node circleNode = this.progressPane.getChildren().get(currentIndex-1);
+        ProgressCircleFXMLController controller = (ProgressCircleFXMLController) circleNode.getUserData();
+
+
+        if(isRight){
+            controller.setRightAnsweredColor();
+        }else{
+            controller.setWrongAnsweredColor();
+        }
         this.setNextQuestion();
     }
     private void setNextQuestion(){
         if(!(currentIndex >= questionList.size())) {
+
+            {
+                // chaning the color
+                Node circleNode = this.progressPane.getChildren().get(currentIndex);
+                ProgressCircleFXMLController controller = (ProgressCircleFXMLController) circleNode.getUserData();
+                 controller.setCurrentQuestionColor();
+            }
+
             this.currentQuestion = this.questionList.get(currentIndex);
             List<String> options = new ArrayList<>();
             options.add(this.currentQuestion.getOption1());
