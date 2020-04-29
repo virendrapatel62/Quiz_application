@@ -6,9 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import models.Question;
-import models.Quiz;
-import models.Student;
+import models.*;
 
 public class StartApp extends Application {
 
@@ -35,6 +33,8 @@ public class StartApp extends Application {
         Quiz.createTable();
         Question.createTable();
         Student.createTable();
+        QuizResult.createTable();
+        QuizResultDetails.createTable();
     }
-    
+
 }

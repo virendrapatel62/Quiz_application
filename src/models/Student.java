@@ -14,7 +14,7 @@ public class Student {
     private String email;
     private String password;
 
-    private static class MetaData {
+    public static class MetaData {
         public static final String TABLE_NAME = "students";
         public static final String ID = "ID";
         public static final String MOBILE = "mobile";

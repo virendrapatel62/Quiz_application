@@ -23,10 +23,10 @@ public class Question {
     private String answer;
 
     public static class MetaData{
-        public static final String TABLE_NAME = "questions";
+        public static final String TABLE_NAME = "QUESTIONS";
         public static final String OPTION1 = "option1";
          public static final String QUESTION = "question";
-         public static final String QUESTION_ID = "id";
+         public static final String QUESTION_ID = "ID";
         public static final String OPTION2 = "option2";
         public static final String OPTION3 = "option3";
         public static final String OPTION4 = "option4";

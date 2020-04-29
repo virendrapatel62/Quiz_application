@@ -16,9 +16,9 @@ public class Quiz {
 
     public static class MetaData {
 
-        public static final String TABLE_NAME = "quizs";
-        public static final String QUIZ_ID = "quiz_id";
-        static final String TITLe = "title";
+        public static final String TABLE_NAME = "QUIZZES";
+        public static final String QUIZ_ID = "ID";
+        static final String TITLe = "TITLE";
 
     }
 
@@ -181,7 +181,7 @@ public class Quiz {
                 format("SELECT %s.%s , %s  ," +
                                 " COUNT(*) as question_count  " +
 
-                                "FROM %s join %s on %s.%s = %s.%s GROUP BY quizs.quiz_id",
+                                "FROM %s join %s on %s.%s = %s.%s GROUP BY %s.%s",
                         MetaData.TABLE_NAME,
                         MetaData.QUIZ_ID ,
                         MetaData.TITLe ,
@@ -190,6 +190,8 @@ public class Quiz {
                         Question.MetaData.TABLE_NAME,
                         Question.MetaData.QUIZ_ID,
                         MetaData.TABLE_NAME,
+                        MetaData.QUIZ_ID,
+                        MetaData.TABLE_NAME  ,
                         MetaData.QUIZ_ID
                 );
         String connectionUrl = "jdbc:sqlite:quiz.db";
