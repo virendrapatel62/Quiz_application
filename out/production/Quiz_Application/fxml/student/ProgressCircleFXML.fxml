@@ -7,9 +7,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0"
-            prefWidth="50.0" xmlns="http://javafx.com/javafx/10.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.student.ProgressCircleFXMLController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="50.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.student.ProgressCircleFXMLController">
     <userData>
         <fx:reference source="controller"></fx:reference>
     </userData>

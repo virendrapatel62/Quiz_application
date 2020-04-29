@@ -2,13 +2,11 @@ package controllers.student;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
-import javafx.beans.InvalidationListener;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableStringValue;
-import javafx.beans.value.ObservableValue;
+
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -17,21 +15,13 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.FlowPane;
 import models.Question;
 import models.Quiz;
-import org.controlsfx.control.Notifications;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.ResourceBundle;
-
+import java.util.*;
 
 
 public class QuestionsScreenController implements Initializable {
-
-    public FlowPane progressPane;
-
     private class QuestionsObservable{
         Property<String> question = new SimpleStringProperty();
         Property<String> option1 = new SimpleStringProperty();
@@ -50,23 +40,28 @@ public class QuestionsScreenController implements Initializable {
         }
     }
 
-    public Label title;
-    public Label time;
-    public Label question;
-    public JFXRadioButton option1;
-    public JFXRadioButton option2;
-    public JFXRadioButton option3;
-    public JFXRadioButton option4;
-    public ToggleGroup options;
-    public JFXButton next;
-    public JFXButton submit;
+//    FXML FIELDS
+    @FXML private FlowPane progressPane;
+    @FXML private Label title;
+    @FXML private Label time;
+    @FXML private Label question;
+    @FXML private JFXRadioButton option1;
+    @FXML private JFXRadioButton option2;
+    @FXML private JFXRadioButton option3;
+    @FXML private JFXRadioButton option4;
+    @FXML private ToggleGroup options;
+    @FXML private JFXButton next;
+    @FXML private JFXButton submit;
 
+//NON FXML FIELDS
     private Quiz quiz;
     private List<Question> questionList;
     private  Question currentQuestion;
     int currentIndex = 0 ;
     private  QuestionsObservable questionsObservable;
+    private Map<Question , String> studentAnswers = new HashMap<>();
 
+//    METHODS AND CONSTRUCTOR
     public void setQuiz(Quiz quiz) {
         this.quiz = quiz;
         this.title.setText(this.quiz.getTitle());
@@ -108,6 +103,8 @@ public class QuestionsScreenController implements Initializable {
         this.questionsObservable = new QuestionsObservable();
         bindFields();
 
+        this.option1.setSelected(true);
+
     }
 
     private void bindFields(){
@@ -128,6 +125,9 @@ public class QuestionsScreenController implements Initializable {
             if(userAnswer.trim().equalsIgnoreCase(rightAnswer.trim())){
                 isRight = true;
             }
+
+            // saving Answer to hashMap
+            studentAnswers.put(this.currentQuestion , userAnswer);
         }
         Node circleNode = this.progressPane.getChildren().get(currentIndex-1);
         ProgressCircleFXMLController controller = (ProgressCircleFXMLController) circleNode.getUserData();
@@ -147,7 +147,7 @@ public class QuestionsScreenController implements Initializable {
                 // chaning the color
                 Node circleNode = this.progressPane.getChildren().get(currentIndex);
                 ProgressCircleFXMLController controller = (ProgressCircleFXMLController) circleNode.getUserData();
-                 controller.setCurrentQuestionColor();
+                controller.setCurrentQuestionColor();
             }
 
             this.currentQuestion = this.questionList.get(currentIndex);
@@ -183,7 +183,6 @@ public class QuestionsScreenController implements Initializable {
     private void showNextQuestionButton(){
         this.next.setVisible(true);
     }
-
     private void hideSubmitQuizButton(){
         this.submit.setVisible(false);
     }
@@ -191,6 +190,8 @@ public class QuestionsScreenController implements Initializable {
     private void showSubmitQuizButton(){
         this.submit.setVisible(true);
     }
+
     public void submit(ActionEvent actionEvent) {
+        System.out.println(this.studentAnswers);
     }
 }
