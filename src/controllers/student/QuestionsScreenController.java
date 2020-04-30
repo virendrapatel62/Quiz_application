@@ -15,6 +15,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.FlowPane;
+import listeners.NewScreenListener;
 import models.Question;
 import models.Quiz;
 import models.QuizResult;
@@ -59,6 +60,11 @@ public class QuestionsScreenController implements Initializable {
     @FXML private JFXButton next;
     @FXML private JFXButton submit;
 
+//    listeners
+    private NewScreenListener screenListener ;
+
+
+
 //NON FXML FIELDS
     private Quiz quiz;
     private List<Question> questionList;
@@ -73,9 +79,13 @@ public class QuestionsScreenController implements Initializable {
         this.student = student;
     }
 
+    public void setScreenListener(NewScreenListener screenListener) {
+        this.screenListener = screenListener;
+    }
+
     //    timer fields
     private  long min , sec , hr , totalSec = 0; //250 4 min 10 sec
-
+    private  Timer timer ;
 
 
     //    METHODS AND CONSTRUCTOR
@@ -106,8 +116,8 @@ public class QuestionsScreenController implements Initializable {
 
     private void setTimer(){
         totalSec = this.questionList.size() * 2;
+this.timer = new Timer();
 
-        Timer timer = new Timer();
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
@@ -272,12 +282,29 @@ public class QuestionsScreenController implements Initializable {
                     .text("You Succesfully Attemped Quiz...")
                     .position(Pos.BOTTOM_RIGHT)
                     .showInformation();
+            timer.cancel();
+            openResultScreen();
         }else{
             Notifications.create()
                     .title("Error")
                     .text("Something Went Wrong..")
                     .position(Pos.BOTTOM_RIGHT)
                     .showError();
+        }
+    }
+
+
+    private  void openResultScreen(){
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().
+                getResource("/fxml/student/QuizResultFXML.fxml"));
+
+        try {
+            Node node = fxmlLoader.load();
+            QuizResultFXMLController controller= fxmlLoader.getController();
+            this.screenListener.removeTopScreen();
+            this.screenListener.ChangeScreen(node);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

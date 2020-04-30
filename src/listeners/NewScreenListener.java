@@ -8,5 +8,5 @@ import java.util.EventListener;
 
 public interface NewScreenListener extends EventHandler {
     public void ChangeScreen(Node node);
-
+    public void removeTopScreen();
 }
