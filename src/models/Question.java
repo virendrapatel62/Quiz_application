@@ -1,6 +1,8 @@
 
 package models;
 
+import constants.DatabaseConstants;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -139,8 +141,8 @@ public class Question {
                                         Quiz.MetaData.QUIZ_ID);
         System.err.println(query);
         try{
-            String connectionUrl = "jdbc:sqlite:quiz.db";
-            Class.forName("org.sqlite.JDBC");
+            String connectionUrl =DatabaseConstants.CONNECTION_URL;
+            Class.forName(DatabaseConstants.DRIVER_CLASS);
             Connection connection = DriverManager.getConnection(connectionUrl);
             PreparedStatement ps = connection.prepareStatement(query);
             boolean b = ps.execute();
@@ -159,9 +161,9 @@ public class Question {
                 MetaData.QUESTION , MetaData.OPTION1 , MetaData.OPTION2 
         , MetaData.OPTION3 , MetaData.OPTION4 , MetaData.ANSWER , MetaData.QUIZ_ID);
         System.err.println("Actual Query = " + query);
-        String connectionUrl = "jdbc:sqlite:quiz.db";
+        String connectionUrl = DatabaseConstants.CONNECTION_URL;
         try{
-            Class.forName("org.sqlite.JDBC");
+            Class.forName(DatabaseConstants.DRIVER_CLASS);
             try (Connection connection = DriverManager.getConnection(connectionUrl)) {
             
             PreparedStatement ps = connection.prepareStatement(query);

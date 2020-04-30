@@ -1,5 +1,6 @@
 package models;
 
+import constants.DatabaseConstants;
 import sun.net.www.MeteredStream;
 
 import java.sql.Connection;
@@ -113,8 +114,8 @@ public class QuizResult {
 
         System.err.println(query);
         try{
-            String connectionUrl = "jdbc:sqlite:quiz.db";
-            Class.forName("org.sqlite.JDBC");
+            String connectionUrl = DatabaseConstants.CONNECTION_URL;
+            Class.forName(DatabaseConstants.DRIVER_CLASS);
             Connection connection = DriverManager.getConnection(connectionUrl);
             PreparedStatement ps = connection.prepareStatement(query);
             boolean b = ps.execute();

@@ -1,5 +1,7 @@
 package models;
 
+import constants.DatabaseConstants;
+
 import java.sql.*;
 import java.util.*;
 
@@ -13,7 +15,6 @@ public class Quiz {
     public Quiz(String title) {
         this.title = title;
     }
-
     public static class MetaData {
 
         public static final String TABLE_NAME = "QUIZZES";
@@ -53,8 +54,8 @@ public class Quiz {
             String raw = "CREATE TABLE %s ( %s INTEGER PRIMARY KEY AUTOINCREMENT, %s VARCHAR(50) );";
             String query = String.format(raw, MetaData.TABLE_NAME, MetaData.QUIZ_ID, MetaData.TITLe);
             System.err.println(query);
-            String connectionUrl = "jdbc:sqlite:quiz.db";
-            Class.forName("org.sqlite.JDBC");
+            String connectionUrl = DatabaseConstants.CONNECTION_URL;
+            Class.forName(DatabaseConstants.DRIVER_CLASS);
             Connection connection = DriverManager.getConnection(connectionUrl);
             PreparedStatement ps = connection.prepareStatement(query);
             boolean b = ps.execute();
@@ -69,10 +70,10 @@ public class Quiz {
     public int save() {
         String raw = "Insert into %s (%s) values (?)";
         String query = String.format(raw, MetaData.TABLE_NAME, MetaData.TITLe);
-        String connectionUrl = "jdbc:sqlite:quiz.db";
+        String connectionUrl = DatabaseConstants.CONNECTION_URL;
 
         try {
-            Class.forName("org.sqlite.JDBC");
+            Class.forName(DatabaseConstants.DRIVER_CLASS);
             try (Connection connection = DriverManager.getConnection(connectionUrl)) {
 
                 PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -130,10 +131,10 @@ public class Quiz {
                         MetaData.TABLE_NAME,
                         MetaData.QUIZ_ID
                         );
-        String connectionUrl = "jdbc:sqlite:quiz.db";
+        String connectionUrl = DatabaseConstants.CONNECTION_URL;
         System.out.println(query);
         try {
-            Class.forName("org.sqlite.JDBC");
+            Class.forName(DatabaseConstants.DRIVER_CLASS);
             try (Connection connection = DriverManager.getConnection(connectionUrl)) {
 
                 PreparedStatement ps = connection.prepareStatement(query);
@@ -194,10 +195,10 @@ public class Quiz {
                         MetaData.TABLE_NAME  ,
                         MetaData.QUIZ_ID
                 );
-        String connectionUrl = "jdbc:sqlite:quiz.db";
+        String connectionUrl = DatabaseConstants.CONNECTION_URL;
         System.out.println(query);
         try {
-            Class.forName("org.sqlite.JDBC");
+            Class.forName(DatabaseConstants.DRIVER_CLASS);
             try (Connection connection = DriverManager.getConnection(connectionUrl)) {
 
                 PreparedStatement ps = connection.prepareStatement(query);
@@ -243,10 +244,10 @@ public class Quiz {
                         Question.MetaData.QUIZ_ID
 
                 );
-        String connectionUrl = "jdbc:sqlite:quiz.db";
+        String connectionUrl = DatabaseConstants.CONNECTION_URL;
         System.out.println(query);
         try {
-            Class.forName("org.sqlite.JDBC");
+            Class.forName(DatabaseConstants.DRIVER_CLASS);
             try (Connection connection = DriverManager.getConnection(connectionUrl)) {
 
                 PreparedStatement ps = connection.prepareStatement(query);

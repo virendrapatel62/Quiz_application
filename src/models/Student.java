@@ -1,5 +1,6 @@
 package models;
 
+import constants.DatabaseConstants;
 import exceptions.LoginException;
 
 import java.sql.*;
@@ -146,8 +147,8 @@ public class Student {
 
         System.out.println(query);
         try {
-            String connectionUrl = "jdbc:sqlite:quiz.db";
-            Class.forName("org.sqlite.JDBC");
+            String connectionUrl = DatabaseConstants.CONNECTION_URL;
+            Class.forName(DatabaseConstants.DRIVER_CLASS);
             Connection connection = DriverManager.getConnection(connectionUrl);
             PreparedStatement ps = connection.prepareStatement(query);
             boolean b = ps.execute();
@@ -218,10 +219,10 @@ public class Student {
                 MetaData.GENDER ,
                 MetaData.TABLE_NAME
         );
-        String connectionUrl = "jdbc:sqlite:quiz.db";
+        String connectionUrl = DatabaseConstants.CONNECTION_URL;
         try
         {
-            Class.forName("org.sqlite.JDBC");
+            Class.forName(DatabaseConstants.DRIVER_CLASS);
             try (Connection connection = DriverManager.getConnection(connectionUrl)) {
 
                 PreparedStatement ps = connection.prepareStatement(query);
@@ -252,10 +253,10 @@ public class Student {
                 MetaData.TABLE_NAME ,
                 MetaData.EMAIL
         );
-        String connectionUrl = "jdbc:sqlite:quiz.db";
+        String connectionUrl = DatabaseConstants.CONNECTION_URL;
         try
         {
-            Class.forName("org.sqlite.JDBC");
+            Class.forName(DatabaseConstants.DRIVER_CLASS);
             try (Connection connection = DriverManager.getConnection(connectionUrl)) {
 
                 PreparedStatement ps = connection.prepareStatement(query);
@@ -288,8 +289,8 @@ public class Student {
         );
 
         System.out.println(query);
-        String connectionUrl = "jdbc:sqlite:quiz.db";
-            Class.forName("org.sqlite.JDBC");
+        String connectionUrl = DatabaseConstants.CONNECTION_URL;
+            Class.forName(DatabaseConstants.DRIVER_CLASS);
             try (Connection connection = DriverManager.getConnection(connectionUrl)) {
 
                 PreparedStatement ps = connection.prepareStatement(query);
