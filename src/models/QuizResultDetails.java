@@ -5,6 +5,8 @@ import constants.DatabaseConstants;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.util.Map;
+import java.util.Set;
 
 public class QuizResultDetails {
 
@@ -76,7 +78,7 @@ public class QuizResultDetails {
     public static void createTable(){
 
         String raw = "   CREATE table %s(\n" +
-                "        %s int NOT null PRIMARY key ,\n" +
+                "        %s INTEGER NOT null PRIMARY key  AUTOINCREMENT,\n" +
                 "        %s int not null ,\n" +
                 "        %s int NOT NULL ,\n" +
                 "        %s varchar(200) not null ,\n" +
@@ -111,10 +113,46 @@ public class QuizResultDetails {
             System.out.println(ex.getMessage());
         }
     }
-//
-//    public void saveQuizResultDetails(){
-//
-//    }
+
+    public static boolean saveQuizResultDetails(QuizResult quizResult , Map<Question , String> userAnswers){
+        String raw = "INSERT INTO QUIZ_RESULT_DETAILS (QUIZ_RESULT_ID,QUESTION_ID,USER_ANSWER) VALUES (\n" +
+                "? , ?  , ? )";
+        String query  = String.format(raw,
+                MetaData.TABLE_NAME ,
+                MetaData.QUIZ_RESULT_ID ,
+                MetaData.QUESTION_ID ,
+                MetaData.USER_ANSWER
+
+        );
+
+        System.err.println(query);
+        try{
+            String connectionUrl = DatabaseConstants.CONNECTION_URL;
+            Class.forName(DatabaseConstants.DRIVER_CLASS);
+            Connection connection = DriverManager.getConnection(connectionUrl);
+            PreparedStatement ps = connection.prepareStatement(query);
+
+            Set<Question> questions  = userAnswers.keySet();
+            for(Question question : questions){
+                ps.setInt(1 , quizResult.getId());
+                ps.setInt(2 , question.getQuestionId());
+                ps.setString(3 , userAnswers.get(question));
+               ps.addBatch();
+
+            }
+
+
+           int[] result  =  ps.executeBatch();
+            if(result.length > 0){
+                return true;
+            }
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+            return false;
+        }
+
+        return false;
+    }
 
 
 }

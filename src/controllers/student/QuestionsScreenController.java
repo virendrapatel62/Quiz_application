@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleGroup;
@@ -17,6 +18,7 @@ import models.Question;
 import models.Quiz;
 import models.QuizResult;
 import models.Student;
+import org.controlsfx.control.Notifications;
 
 import java.io.IOException;
 import java.net.URL;
@@ -201,6 +203,19 @@ public class QuestionsScreenController implements Initializable {
         Student student = new Student();
         student.setId(1);
         QuizResult quizResult = new QuizResult(this.quiz , student , numberOfRightAnswers);
-        quizResult.save(this.studentAnswers);
+        boolean result = quizResult.save(this.studentAnswers);
+        if(result){
+            Notifications.create()
+                    .title("Message")
+                    .text("You Succesfully Attemped Quiz...")
+                    .position(Pos.BOTTOM_RIGHT)
+                    .showInformation();
+        }else{
+            Notifications.create()
+                    .title("Error")
+                    .text("Something Went Wrong..")
+                    .position(Pos.BOTTOM_RIGHT)
+                    .showError();
+        }
     }
 }
