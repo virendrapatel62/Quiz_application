@@ -15,6 +15,8 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.FlowPane;
 import models.Question;
 import models.Quiz;
+import models.QuizResult;
+import models.Student;
 
 import java.io.IOException;
 import java.net.URL;
@@ -60,6 +62,7 @@ public class QuestionsScreenController implements Initializable {
     int currentIndex = 0 ;
     private  QuestionsObservable questionsObservable;
     private Map<Question , String> studentAnswers = new HashMap<>();
+    private Integer numberOfRightAnswers  = 0;
 
 //    METHODS AND CONSTRUCTOR
     public void setQuiz(Quiz quiz) {
@@ -124,6 +127,7 @@ public class QuestionsScreenController implements Initializable {
             String rightAnswer = this.currentQuestion.getAnswer();
             if(userAnswer.trim().equalsIgnoreCase(rightAnswer.trim())){
                 isRight = true;
+                this.numberOfRightAnswers++;
             }
 
             // saving Answer to hashMap
@@ -191,7 +195,12 @@ public class QuestionsScreenController implements Initializable {
         this.submit.setVisible(true);
     }
 
-    public void submit(ActionEvent actionEvent) {
+    public void submit(ActionEvent actionEvent)
+    {
         System.out.println(this.studentAnswers);
+        Student student = new Student();
+        student.setId(1);
+        QuizResult quizResult = new QuizResult(this.quiz , student , numberOfRightAnswers);
+        quizResult.save(this.studentAnswers);
     }
 }

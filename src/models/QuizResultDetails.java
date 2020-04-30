@@ -111,6 +111,10 @@ public class QuizResultDetails {
             System.out.println(ex.getMessage());
         }
     }
+//
+//    public void saveQuizResultDetails(){
+//
+//    }
 
 
 }

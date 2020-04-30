@@ -92,13 +92,13 @@
     <property name="settings.editor.selected.configurable" value="preferences.JavaFX" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\dell\IdeaProjects\Quiz_application\src\util\sample_data" />
-      <recent name="C:\Users\dell\IdeaProjects\Quiz_application" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\dell\IdeaProjects\Quiz_application\src\util\sample_data\quizzes" />
       <recent name="C:\Users\dell\IdeaProjects\Quiz_application\src\fxml" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\dell\IdeaProjects\Quiz_application\src\util\sample_data" />
+      <recent name="C:\Users\dell\IdeaProjects\Quiz_application" />
     </key>
   </component>
   <component name="RunDashboard">

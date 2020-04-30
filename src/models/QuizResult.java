@@ -1,13 +1,10 @@
 package models;
 
 import constants.DatabaseConstants;
-import sun.net.www.MeteredStream;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.Date;
+import java.util.Map;
 
 public class QuizResult {
     private Integer id ;
@@ -89,7 +86,7 @@ public class QuizResult {
     public static void createTable(){
 
         String raw = "CREATE table %s (\n" +
-                "        %s int not null PRIMARY key ,\n" +
+                "        %s Integer not null PRIMARY key AUTOINCREMENT,\n" +
                 "        %s int not null,\n" +
                 "        %s int not null ,\n" +
                 "        %s int not null ,\n" +
@@ -125,6 +122,46 @@ public class QuizResult {
         }catch(Exception ex){
             System.out.println(ex.getMessage());
         }
+    }
+
+
+    public void save(Map<Question , String> userAnsers){
+        String raw = "INSERT INTO %s (%s , %s , %s , %s ) values \n" +
+                "( ?, ? , ?  , CURRENT_TIMESTAMP)";
+        String query  = String.format(raw,
+                MetaData.TABLE_NAME ,
+                MetaData.STUDENT_ID,
+                MetaData.QUIZ_ID,
+                MetaData.RIGHT_ANSWERS,
+                MetaData.TIMESTAMP);
+
+        System.err.println(query);
+        try{
+            String connectionUrl = DatabaseConstants.CONNECTION_URL;
+            Class.forName(DatabaseConstants.DRIVER_CLASS);
+            Connection connection = DriverManager.getConnection(connectionUrl);
+            PreparedStatement ps = connection.prepareStatement(query , Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1 , this.getStudent().getId());
+            ps.setInt(2 , this.getQuiz().getQuizId());
+            ps.setInt(3 , this.getRightAnswers());
+            int result =  ps.executeUpdate();
+            if(result > 0){
+                ResultSet keys = ps.getGeneratedKeys();
+                if(keys.next()){
+                    this.setId(keys.getInt(1));
+                    // now we will save details..
+                    System.out.println(this);
+//                    saveQuizResultDetails(userAnsers);
+                }
+            }
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+
+
+    private void saveQuizResultDetails(Map<Question , String> userAnswers){
+
     }
 
 }
