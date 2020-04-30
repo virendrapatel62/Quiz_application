@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 
 
 public class QuestionsScreenController implements Initializable {
-    private class QuestionsObservable{
+    private class QuestionsObservable {
         Property<String> question = new SimpleStringProperty();
         Property<String> option1 = new SimpleStringProperty();
         Property<String> option2 = new SimpleStringProperty();
@@ -47,32 +47,42 @@ public class QuestionsScreenController implements Initializable {
         }
     }
 
-//    FXML FIELDS
-    @FXML private FlowPane progressPane;
-    @FXML private Label title;
-    @FXML private Label time;
-    @FXML private Label question;
-    @FXML private JFXRadioButton option1;
-    @FXML private JFXRadioButton option2;
-    @FXML private JFXRadioButton option3;
-    @FXML private JFXRadioButton option4;
-    @FXML private ToggleGroup options;
-    @FXML private JFXButton next;
-    @FXML private JFXButton submit;
+    //    FXML FIELDS
+    @FXML
+    private FlowPane progressPane;
+    @FXML
+    private Label title;
+    @FXML
+    private Label time;
+    @FXML
+    private Label question;
+    @FXML
+    private JFXRadioButton option1;
+    @FXML
+    private JFXRadioButton option2;
+    @FXML
+    private JFXRadioButton option3;
+    @FXML
+    private JFXRadioButton option4;
+    @FXML
+    private ToggleGroup options;
+    @FXML
+    private JFXButton next;
+    @FXML
+    private JFXButton submit;
 
-//    listeners
-    private NewScreenListener screenListener ;
+    //    listeners
+    private NewScreenListener screenListener;
 
 
-
-//NON FXML FIELDS
+    //NON FXML FIELDS
     private Quiz quiz;
     private List<Question> questionList;
-    private  Question currentQuestion;
-    int currentIndex = 0 ;
-    private  QuestionsObservable questionsObservable;
-    private Map<Question , String> studentAnswers = new HashMap<>();
-    private Integer numberOfRightAnswers  = 0;
+    private Question currentQuestion;
+    int currentIndex = 0;
+    private QuestionsObservable questionsObservable;
+    private Map<Question, String> studentAnswers = new HashMap<>();
+    private Integer numberOfRightAnswers = 0;
     private Student student;
 
     public void setStudent(Student student) {
@@ -84,8 +94,8 @@ public class QuestionsScreenController implements Initializable {
     }
 
     //    timer fields
-    private  long min , sec , hr , totalSec = 0; //250 4 min 10 sec
-    private  Timer timer ;
+    private long min, sec, hr, totalSec = 0; //250 4 min 10 sec
+    private Timer timer;
 
 
     //    METHODS AND CONSTRUCTOR
@@ -95,28 +105,28 @@ public class QuestionsScreenController implements Initializable {
         this.getData();
     }
 
-    private String format(long value){
-        if(value < 10){
-            return 0+""+value;
+    private String format(long value) {
+        if (value < 10) {
+            return 0 + "" + value;
         }
 
-        return value+"";
+        return value + "";
     }
 
-    public void convertTime(){
+    public void convertTime() {
 
         min = TimeUnit.SECONDS.toMinutes(totalSec);
         sec = totalSec - (min * 60);
         hr = TimeUnit.MINUTES.toHours(min);
         min = min - (hr * 60);
-        time.setText(format(hr)+ ":" + format(min) + ":" +  format(sec) );
+        time.setText(format(hr) + ":" + format(min) + ":" + format(sec));
 
         totalSec--;
     }
 
-    private void setTimer(){
+    private void setTimer() {
         totalSec = this.questionList.size() * 2;
-this.timer = new Timer();
+        this.timer = new Timer();
 
         TimerTask timerTask = new TimerTask() {
             @Override
@@ -126,7 +136,7 @@ this.timer = new Timer();
                     public void run() {
                         System.out.println("After 1 sec...");
                         convertTime();
-                        if(totalSec<=0){
+                        if (totalSec <= 0) {
                             timer.cancel();
                             time.setText("00:00:00");
                             // saveing data to database
@@ -142,28 +152,28 @@ this.timer = new Timer();
             }
         };
 
-        timer.schedule(timerTask , 0 , 1000);
+        timer.schedule(timerTask, 0, 1000);
     }
 
-    private void getData(){
-        if(quiz != null){
+    private void getData() {
+        if (quiz != null) {
             this.questionList = quiz.getQuestions();
             Collections.shuffle(this.questionList);
             renderProgress();
             setNextQuestion();
-    setTimer();
+            setTimer();
         }
     }
 
-    private void renderProgress(){
-        for(int i = 0 ; i < this.questionList.size() ; i ++){
+    private void renderProgress() {
+        for (int i = 0; i < this.questionList.size(); i++) {
             FXMLLoader fxmlLoader = new FXMLLoader(
                     getClass()
                             .getResource("/fxml/student/ProgressCircleFXML.fxml"));
             try {
                 Node node = fxmlLoader.load();
                 ProgressCircleFXMLController progressCircleFXMLController = fxmlLoader.getController();
-                progressCircleFXMLController.setNumber(i+1);
+                progressCircleFXMLController.setNumber(i + 1);
                 progressCircleFXMLController.setDefaultColor();
                 progressPane.getChildren().add(node);
             } catch (IOException e) {
@@ -184,7 +194,7 @@ this.timer = new Timer();
 
     }
 
-    private void bindFields(){
+    private void bindFields() {
         this.question.textProperty().bind(this.questionsObservable.question);
         this.option4.textProperty().bind(this.questionsObservable.option4);
         this.option3.textProperty().bind(this.questionsObservable.option3);
@@ -196,30 +206,31 @@ this.timer = new Timer();
         boolean isRight = false;
         {
             // checking answer
-            JFXRadioButton selectedButton = (JFXRadioButton)options.getSelectedToggle();
+            JFXRadioButton selectedButton = (JFXRadioButton) options.getSelectedToggle();
             String userAnswer = selectedButton.getText();
             String rightAnswer = this.currentQuestion.getAnswer();
-            if(userAnswer.trim().equalsIgnoreCase(rightAnswer.trim())){
+            if (userAnswer.trim().equalsIgnoreCase(rightAnswer.trim())) {
                 isRight = true;
                 this.numberOfRightAnswers++;
             }
 
             // saving Answer to hashMap
-            studentAnswers.put(this.currentQuestion , userAnswer);
+            studentAnswers.put(this.currentQuestion, userAnswer);
         }
-        Node circleNode = this.progressPane.getChildren().get(currentIndex-1);
+        Node circleNode = this.progressPane.getChildren().get(currentIndex - 1);
         ProgressCircleFXMLController controller = (ProgressCircleFXMLController) circleNode.getUserData();
 
 
-        if(isRight){
+        if (isRight) {
             controller.setRightAnsweredColor();
-        }else{
+        } else {
             controller.setWrongAnsweredColor();
         }
         this.setNextQuestion();
     }
-    private void setNextQuestion(){
-        if(!(currentIndex >= questionList.size())) {
+
+    private void setNextQuestion() {
+        if (!(currentIndex >= questionList.size())) {
 
             {
                 // chaning the color
@@ -249,34 +260,35 @@ this.timer = new Timer();
 
             this.questionsObservable.setQuestion(this.currentQuestion);
             currentIndex++;
-        }else{
+        } else {
             hideNextQuestionButton();
             showSubmitQuizButton();
         }
     }
 
-    private void hideNextQuestionButton(){
+    private void hideNextQuestionButton() {
         this.next.setVisible(false);
     }
-    private void showNextQuestionButton(){
+
+    private void showNextQuestionButton() {
         this.next.setVisible(true);
     }
-    private void hideSubmitQuizButton(){
+
+    private void hideSubmitQuizButton() {
         this.submit.setVisible(false);
     }
 
-    private void showSubmitQuizButton(){
+    private void showSubmitQuizButton() {
         this.submit.setVisible(true);
     }
 
-    public void submit(ActionEvent actionEvent)
-    {
+    public void submit(ActionEvent actionEvent) {
 
         System.out.println(this.studentAnswers);
         System.out.println(this.student);
-        QuizResult quizResult = new QuizResult(this.quiz , student , numberOfRightAnswers);
+        QuizResult quizResult = new QuizResult(this.quiz, student, numberOfRightAnswers);
         boolean result = quizResult.save(this.studentAnswers);
-        if(result){
+        if (result) {
             Notifications.create()
                     .title("Message")
                     .text("You Succesfully Attemped Quiz...")
@@ -284,7 +296,7 @@ this.timer = new Timer();
                     .showInformation();
             timer.cancel();
             openResultScreen();
-        }else{
+        } else {
             Notifications.create()
                     .title("Error")
                     .text("Something Went Wrong..")
@@ -294,13 +306,13 @@ this.timer = new Timer();
     }
 
 
-    private  void openResultScreen(){
+    private void openResultScreen() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().
                 getResource("/fxml/student/QuizResultFXML.fxml"));
 
         try {
             Node node = fxmlLoader.load();
-            QuizResultFXMLController controller= fxmlLoader.getController();
+            QuizResultFXMLController controller = fxmlLoader.getController();
             this.screenListener.removeTopScreen();
             this.screenListener.ChangeScreen(node);
         } catch (IOException e) {
