@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import listeners.NewScreenListener;
+import models.Student;
 
 import java.io.IOException;
 import java.net.URL;
@@ -22,8 +23,16 @@ public class StudentMainScreenController implements Initializable {
     @FXML  private JFXButton backButton;
     @FXML  private StackPane stackPanel;
 
+    private Student student;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
         addQuizListScreen();
     }
 
@@ -39,6 +48,7 @@ public class StudentMainScreenController implements Initializable {
         try {
             Node node = fxmlLoader.load();
             QuizListController quizListController = fxmlLoader.getController();
+            quizListController.setStudent(this.student);
             quizListController.setScreenListener(new NewScreenListener() {
                 @Override
                 public void ChangeScreen(Node node) {
@@ -50,6 +60,7 @@ public class StudentMainScreenController implements Initializable {
 
                 }
             });
+            quizListController.setCards();
             stackPanel.getChildren().add(node);
 
 

@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.FlowPane;
 import listeners.NewScreenListener;
 import models.Quiz;
+import models.Student;
 
 import java.io.IOException;
 import java.net.URL;
@@ -20,13 +21,20 @@ public class QuizListController implements Initializable {
     private NewScreenListener screenListener;
     private Set<Quiz> keys ;
 
+    private Student student;
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
     public void setScreenListener(NewScreenListener screenListener) {
         this.screenListener = screenListener;
-        setCards();
+
 
     }
 
-    private void setCards(){
+
+    public  void setCards(){
 
         for(Quiz quiz : keys){
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().
@@ -35,6 +43,7 @@ public class QuizListController implements Initializable {
                 Node node = fxmlLoader.load();
                 QuizCardLayoutFXMLController quizCardLayoutFXMLController = fxmlLoader.getController();
                 quizCardLayoutFXMLController.setQuiz(quiz);
+                quizCardLayoutFXMLController.setStudent(this.student);
                 quizCardLayoutFXMLController.setNoq(quizzes.get(quiz) + "");
                 quizCardLayoutFXMLController.setScreenListener(this.screenListener);
                 quizListContainer.getChildren().add(node);

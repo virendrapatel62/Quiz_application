@@ -148,6 +148,7 @@ public class QuizResultDetails {
             }
         }catch(Exception ex){
             System.out.println(ex.getMessage());
+            ex.printStackTrace();
             return false;
         }
 

@@ -2,6 +2,7 @@ package controllers.student;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
+import javafx.application.Platform;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -23,6 +24,7 @@ import org.controlsfx.control.Notifications;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 
 public class QuestionsScreenController implements Initializable {
@@ -65,12 +67,72 @@ public class QuestionsScreenController implements Initializable {
     private  QuestionsObservable questionsObservable;
     private Map<Question , String> studentAnswers = new HashMap<>();
     private Integer numberOfRightAnswers  = 0;
+    private Student student;
 
-//    METHODS AND CONSTRUCTOR
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    //    timer fields
+    private  long min , sec , hr , totalSec = 0; //250 4 min 10 sec
+
+
+
+    //    METHODS AND CONSTRUCTOR
     public void setQuiz(Quiz quiz) {
         this.quiz = quiz;
         this.title.setText(this.quiz.getTitle());
         this.getData();
+    }
+
+    private String format(long value){
+        if(value < 10){
+            return 0+""+value;
+        }
+
+        return value+"";
+    }
+
+    public void convertTime(){
+
+        min = TimeUnit.SECONDS.toMinutes(totalSec);
+        sec = totalSec - (min * 60);
+        hr = TimeUnit.MINUTES.toHours(min);
+        min = min - (hr * 60);
+        time.setText(format(hr)+ ":" + format(min) + ":" +  format(sec) );
+
+        totalSec--;
+    }
+
+    private void setTimer(){
+        totalSec = this.questionList.size() * 2;
+
+        Timer timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        System.out.println("After 1 sec...");
+                        convertTime();
+                        if(totalSec<=0){
+                            timer.cancel();
+                            time.setText("00:00:00");
+                            // saveing data to database
+                            submit(null);
+                            Notifications.create()
+                                    .title("Error")
+                                    .text("TIme Up")
+                                    .position(Pos.BOTTOM_RIGHT)
+                                    .showError();
+                        }
+                    }
+                });
+            }
+        };
+
+        timer.schedule(timerTask , 0 , 1000);
     }
 
     private void getData(){
@@ -79,7 +141,7 @@ public class QuestionsScreenController implements Initializable {
             Collections.shuffle(this.questionList);
             renderProgress();
             setNextQuestion();
-
+    setTimer();
         }
     }
 
@@ -199,9 +261,9 @@ public class QuestionsScreenController implements Initializable {
 
     public void submit(ActionEvent actionEvent)
     {
+
         System.out.println(this.studentAnswers);
-        Student student = new Student();
-        student.setId(1);
+        System.out.println(this.student);
         QuizResult quizResult = new QuizResult(this.quiz , student , numberOfRightAnswers);
         boolean result = quizResult.save(this.studentAnswers);
         if(result){

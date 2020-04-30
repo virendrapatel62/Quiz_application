@@ -4,6 +4,7 @@ import constants.AdminEmailPassword;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import controllers.student.StudentMainScreenController;
 import exceptions.LoginException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -68,12 +69,15 @@ public class LoginController implements Initializable {
         System.out.println("controllers.AdminLoginController.loginStudent()");
         Student s = new Student(this.studentEmail.getText() ,this.studentPassword.getText() );
         try{
-//            s.login();
+            s.login();
             System.out.println(s);
 
             try {
-                Parent root = FXMLLoader.load(getClass().
+                FXMLLoader fxmlLoader =  new FXMLLoader(getClass().
                         getResource("/fxml/student/StudentMainScreen.fxml"));
+                Parent root = fxmlLoader.load();
+                StudentMainScreenController controller = fxmlLoader.getController();
+                controller.setStudent(s);
                 Stage stage = (Stage)studentPassword.getScene().getWindow();
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
