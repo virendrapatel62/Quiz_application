@@ -313,6 +313,7 @@ public class QuestionsScreenController implements Initializable {
         try {
             Node node = fxmlLoader.load();
             QuizResultFXMLController controller = fxmlLoader.getController();
+            controller.setValues(this.studentAnswers , numberOfRightAnswers , quiz , questionList);
             this.screenListener.removeTopScreen();
             this.screenListener.ChangeScreen(node);
         } catch (IOException e) {
