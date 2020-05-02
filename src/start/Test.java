@@ -25,7 +25,11 @@ public class Test {
 //        DataCollector.readAndSaveUserData();
 //        totalSec = 75;
 
-
-
+//        Student student = new Student();
+//        student.setId(4);
+//        System.out.println(QuizResult.getQuezzes(student));
+//
+//        student.setId(5);
+//        System.out.println(QuizResult.getQuezzes(student));
     }
 }
