@@ -6,14 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox maxHeight="-Infinity"
-      maxWidth="-Infinity"
-      minHeight="-Infinity"
-      minWidth="-Infinity"
-      fx:controller="controllers.student.smallLayout.AttempedQuizListItemFXML"
-      prefHeight="46.0"
-      prefWidth="652.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="item" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#loadData" prefHeight="46.0" prefWidth="652.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.student.smallLayout.AttempedQuizListItemFXML">
    <children>
       <Label fx:id="title" prefHeight="26.0" text="Label" wrapText="true">
          <font>

@@ -44,6 +44,8 @@ public class StudentHomeFXMLController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().
                     getResource("/fxml/student/AttempedQuizListScreenFXML.fxml"));
             Parent root = fxmlLoader.load();
+            AttempedQuizListScreenFXMLController controller = fxmlLoader.getController();
+            controller.setStudent(student);
             this.attempedQuizzes.setContent(root);
         } catch (Exception e) {
             e.printStackTrace();

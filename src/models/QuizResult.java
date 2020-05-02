@@ -164,7 +164,39 @@ public class QuizResult {
         return false;
     }
 
-    public static Map<QuizResult , Quiz> getQuezzes(Student student){
+
+    public Integer getNumberOfAttempedQuestions() {
+        String raw = "SELECT COUNT(*) FROM %s  WHERE  %s = ?";
+        String query = String.format(raw, QuizResultDetails.MetaData.TABLE_NAME
+                , QuizResultDetails.MetaData.QUIZ_RESULT_ID
+        );
+
+
+        try {
+            Class.forName(DatabaseConstants.DRIVER_CLASS);
+            Connection connection = DriverManager
+
+                    .getConnection(DatabaseConstants.CONNECTION_URL);
+
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, this.getId());
+            ResultSet result = ps.executeQuery();
+
+            while (result.next()) {
+                return result.getInt(1);
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+
+
+    public static Map<QuizResult , Quiz> getQuizzes(Student student){
 
         Map<QuizResult ,  Quiz > data = new HashMap<>();
         String raw = "SELECT %s.%s ,  " +

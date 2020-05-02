@@ -31,5 +31,7 @@ public class Test {
 //
 //        student.setId(5);
 //        System.out.println(QuizResult.getQuezzes(student));
+
+
     }
 }

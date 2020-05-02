@@ -15,6 +15,7 @@ public class Quiz {
     public Quiz(String title) {
         this.title = title;
     }
+
     public static class MetaData {
 
         public static final String TABLE_NAME = "QUIZZES";
@@ -91,46 +92,46 @@ public class Quiz {
 
         return -1;
     }
-    
-    public boolean save(List<Question> questions){
+
+    public boolean save(List<Question> questions) {
         boolean flag = true;
         this.quizId = this.save();
-        
-        for(Question q : questions){
+
+        for (Question q : questions) {
             flag = flag && q.save();
             System.out.println(flag);
         }
         return flag;
     }
 
-    public static Map<Quiz , List<Question>> getAll(){
-        Map<Quiz , List<Question>> quizes = new HashMap<>();
+    public static Map<Quiz, List<Question>> getAll() {
+        Map<Quiz, List<Question>> quizes = new HashMap<>();
         Quiz key = null;
 
         String query = String.
                 format("SELECT %s.%s , %s  ," +
-                        " %s , %s , " +
-                        "%s , %s ," +
-                        " %s , %s , \n" +
-                        "%s\n" +
-                        "FROM %s join %s on %s.%s = %s.%s",
+                                " %s , %s , " +
+                                "%s , %s ," +
+                                " %s , %s , \n" +
+                                "%s\n" +
+                                "FROM %s join %s on %s.%s = %s.%s",
                         MetaData.TABLE_NAME,
-                        MetaData.QUIZ_ID ,
-                        MetaData.TITLe ,
+                        MetaData.QUIZ_ID,
+                        MetaData.TITLe,
                         Question.MetaData.QUESTION_ID,
                         Question.MetaData.QUESTION,
                         Question.MetaData.OPTION1,
                         Question.MetaData.OPTION2,
                         Question.MetaData.OPTION3,
                         Question.MetaData.OPTION4,
-                        Question.MetaData.ANSWER ,
+                        Question.MetaData.ANSWER,
                         MetaData.TABLE_NAME,
                         Question.MetaData.TABLE_NAME,
                         Question.MetaData.TABLE_NAME,
                         Question.MetaData.QUIZ_ID,
                         MetaData.TABLE_NAME,
                         MetaData.QUIZ_ID
-                        );
+                );
         String connectionUrl = DatabaseConstants.CONNECTION_URL;
         System.out.println(query);
         try {
@@ -140,7 +141,7 @@ public class Quiz {
                 PreparedStatement ps = connection.prepareStatement(query);
                 ResultSet result = ps.executeQuery();
 
-                while(result.next()){
+                while (result.next()) {
                     Quiz temp = new Quiz();
                     temp.setQuizId(result.getInt(1));
                     temp.setTitle(result.getString(2));
@@ -154,9 +155,9 @@ public class Quiz {
                     tempQuestion.setOption4(result.getString(8));
                     tempQuestion.setAnswer(result.getString(9));
 
-                    if(key!=null && key.equals(temp)){
+                    if (key != null && key.equals(temp)) {
                         quizes.get(key).add(tempQuestion);
-                    }else{
+                    } else {
                         ArrayList<Question> value = new ArrayList<>();
                         value.add(tempQuestion);
                         quizes.put(temp, value);
@@ -174,8 +175,8 @@ public class Quiz {
     }
 
 
-    public static Map<Quiz , Integer> getAllWithQuestionCount(){
-        Map<Quiz , Integer> quizes = new HashMap<>();
+    public static Map<Quiz, Integer> getAllWithQuestionCount() {
+        Map<Quiz, Integer> quizes = new HashMap<>();
         Quiz key = null;
 
         String query = String.
@@ -184,15 +185,15 @@ public class Quiz {
 
                                 "FROM %s join %s on %s.%s = %s.%s GROUP BY %s.%s",
                         MetaData.TABLE_NAME,
-                        MetaData.QUIZ_ID ,
-                        MetaData.TITLe ,
-                      MetaData.TABLE_NAME,
+                        MetaData.QUIZ_ID,
+                        MetaData.TITLe,
+                        MetaData.TABLE_NAME,
                         Question.MetaData.TABLE_NAME,
                         Question.MetaData.TABLE_NAME,
                         Question.MetaData.QUIZ_ID,
                         MetaData.TABLE_NAME,
                         MetaData.QUIZ_ID,
-                        MetaData.TABLE_NAME  ,
+                        MetaData.TABLE_NAME,
                         MetaData.QUIZ_ID
                 );
         String connectionUrl = DatabaseConstants.CONNECTION_URL;
@@ -204,12 +205,12 @@ public class Quiz {
                 PreparedStatement ps = connection.prepareStatement(query);
                 ResultSet result = ps.executeQuery();
 
-                while(result.next()){
+                while (result.next()) {
                     Quiz temp = new Quiz();
                     temp.setQuizId(result.getInt(1));
                     temp.setTitle(result.getString(2));
                     int count = result.getInt(3);
-                    quizes.put(temp , count);
+                    quizes.put(temp, count);
 
                 }
             }
@@ -220,9 +221,9 @@ public class Quiz {
         return quizes;
     }
 
-//    get questions Using Quiz
-    public  List<Question> getQuestions(){
-       List<Question> quizes = new ArrayList<>();
+    //    get questions Using Quiz
+    public List<Question> getQuestions() {
+        List<Question> quizes = new ArrayList<>();
 
         String query = String.
                 format("SELECT " +
@@ -238,7 +239,7 @@ public class Quiz {
                         Question.MetaData.OPTION2,
                         Question.MetaData.OPTION3,
                         Question.MetaData.OPTION4,
-                        Question.MetaData.ANSWER ,
+                        Question.MetaData.ANSWER,
 
                         Question.MetaData.TABLE_NAME,
                         Question.MetaData.QUIZ_ID
@@ -251,10 +252,10 @@ public class Quiz {
             try (Connection connection = DriverManager.getConnection(connectionUrl)) {
 
                 PreparedStatement ps = connection.prepareStatement(query);
-                ps.setInt(1 , this.quizId);
+                ps.setInt(1, this.quizId);
                 ResultSet result = ps.executeQuery();
 
-                while(result.next()){
+                while (result.next()) {
                     Question tempQuestion = new Question();
                     tempQuestion.setQuestionId(result.getInt(1));
                     tempQuestion.setQuestion(result.getString(2));
@@ -275,7 +276,34 @@ public class Quiz {
     }
 
 
+    public Integer getNumberOfQuestions() {
+        String raw = "SELECT count(*) from %s WHERE %s = ?";
+        String query = String.format(raw, Question.MetaData.TABLE_NAME
+                , Question.MetaData.QUIZ_ID
+        );
 
+
+        try {
+            Class.forName(DatabaseConstants.DRIVER_CLASS);
+            Connection connection = DriverManager
+
+                    .getConnection(DatabaseConstants.CONNECTION_URL);
+
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, this.quizId);
+            ResultSet result = ps.executeQuery();
+
+            while (result.next()) {
+              return result.getInt(1);
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
 
 
 
