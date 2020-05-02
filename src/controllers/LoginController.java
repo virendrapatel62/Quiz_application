@@ -4,7 +4,8 @@ import constants.AdminEmailPassword;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import controllers.student.StudentMainScreenController;
+import controllers.student.StudentAllQuizzesController;
+import controllers.student.StudentHomeFXMLController;
 import exceptions.LoginException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,7 +14,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -76,9 +76,9 @@ public class LoginController implements Initializable {
 
             try {
                 FXMLLoader fxmlLoader =  new FXMLLoader(getClass().
-                        getResource("/fxml/student/StudentMainScreen.fxml"));
+                        getResource("/fxml/student/StudentHomeFXML.fxml"));
                 Parent root = fxmlLoader.load();
-                StudentMainScreenController controller = fxmlLoader.getController();
+               StudentHomeFXMLController controller = fxmlLoader.getController();
                 controller.setStudent(s);
                 Stage stage = (Stage)studentPassword.getScene().getWindow();
                 Scene scene = new Scene(root);

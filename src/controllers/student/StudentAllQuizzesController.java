@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class StudentMainScreenController implements Initializable {
+public class StudentAllQuizzesController implements Initializable {
 
 
     @FXML  private JFXButton backButton;
