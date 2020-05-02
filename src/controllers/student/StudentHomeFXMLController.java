@@ -19,6 +19,12 @@ public class StudentHomeFXMLController implements Initializable {
     public void setStudent(Student student) {
         this.student = student;
 
+        setAllQuizzesScreen();
+        setAttempedQuizzesScreen();
+
+    }
+
+    private void setAllQuizzesScreen(){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().
                     getResource("/fxml/student/StudentAllQuizzes.fxml"));
@@ -27,6 +33,18 @@ public class StudentHomeFXMLController implements Initializable {
             controller.setStudent(student);
 
             this.allQuizzes.setContent(root);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    private void setAttempedQuizzesScreen(){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().
+                    getResource("/fxml/student/AttempedQuizListScreenFXML.fxml"));
+            Parent root = fxmlLoader.load();
+            this.attempedQuizzes.setContent(root);
         } catch (Exception e) {
             e.printStackTrace();
 
