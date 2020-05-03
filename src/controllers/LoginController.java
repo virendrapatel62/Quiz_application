@@ -39,6 +39,8 @@ public class LoginController implements Initializable {
         // TODO
         this.studentEmail.setText("dee@gmail.com");
         this.studentPassword.setText("123456789");
+        this.adminEmail.setText("admin@gmail.com");
+        this.adminPassword.setText("123456");
         
     }    
 
@@ -46,8 +48,7 @@ public class LoginController implements Initializable {
     private void loginAdmin(ActionEvent event) {
         String email = adminEmail.getText();
         String password = adminPassword.getText();
-        this.adminEmail.setText("admin@gmail.com");
-        this.adminPassword.setText("123456");
+
         if(email.trim().equalsIgnoreCase(AdminEmailPassword.email) && password.trim().equalsIgnoreCase(AdminEmailPassword.password)){
             
             try {

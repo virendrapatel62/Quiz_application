@@ -11,6 +11,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 public class AdminHomeScreenFXMLController implements Initializable {
 
+    public Tab dashboard;
     @FXML
     private TabPane adminTabPane;
     @FXML
@@ -28,6 +29,11 @@ public class AdminHomeScreenFXMLController implements Initializable {
             Parent studentTabNode = FXMLLoader.load(getClass()
                     .getResource("/fxml/AdminStudentTab.fxml"));
             addStudentTab.setContent(studentTabNode);
+
+
+            Parent dash = FXMLLoader.load(getClass()
+                    .getResource("/fxml/AdminDashboardFXML.fxml"));
+            dashboard.setContent(dash);
         } catch (Exception e) {
             e.printStackTrace();
         }
