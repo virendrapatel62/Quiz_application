@@ -309,6 +309,71 @@ public class Quiz {
 
 
 
+    public static Map<Quiz , Integer> getStudentCount() {
+        Map<Quiz , Integer> data = new HashMap<>();
+        String raw = "SELECT QUIZZES.ID , \n" +
+                "QUIZZES.title  , \n" +
+                "count(*) ,\n" +
+                "QUIZ_RESULTS.id\n" +
+                "FROM QUIZZES Left Join \n" +
+                "QUIZ_RESULTS on \n" +
+                "QUIZ_RESULTS.quiz_id = QUIZZES.ID \n" +
+                "GROUP BY QUIZZES.id";
+        String query = String.format(
+                raw,
+                MetaData.TABLE_NAME,
+                MetaData.QUIZ_ID,
+
+                MetaData.TABLE_NAME,
+                MetaData.TITLe,
+
+                QuizResult.MetaData.TABLE_NAME ,
+                QuizResult.MetaData.ID,
+
+                MetaData.TABLE_NAME,
+                QuizResult.MetaData.TABLE_NAME,
+
+                QuizResult.MetaData.TABLE_NAME,
+                QuizResult.MetaData.QUIZ_ID,
+
+                MetaData.TABLE_NAME,
+                MetaData.QUIZ_ID,
+
+                MetaData.TABLE_NAME,
+                MetaData.QUIZ_ID
+
+                );
+        try {
+            Class.forName(DatabaseConstants.DRIVER_CLASS);
+            Connection connection = DriverManager
+
+                    .getConnection(DatabaseConstants.CONNECTION_URL);
+
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet result = ps.executeQuery();
+
+            while (result.next()) {
+                Quiz  quiz = new Quiz();
+                quiz.setQuizId(result.getInt(1));
+                quiz.setTitle(result.getString(2));
+                int count = 0 ;
+                Integer resultID = result.getInt(4);
+                if(resultID > 0){
+                    count = result.getInt(3);
+                }
+                data.put(quiz , count);
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return data;
+    }
+
+
+
     @Override
     public boolean equals(Object obj) {
         if(obj == null)
