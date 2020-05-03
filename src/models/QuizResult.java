@@ -309,4 +309,10 @@ public class QuizResult {
         return QuizResultDetails.saveQuizResultDetails(this , userAnswers);
     }
 
+
+    public static List<QuizResult> getResult(Student student){
+        Map<QuizResult , Quiz > quizResultQuizMap = getQuizzes(student);
+        return  new ArrayList(quizResultQuizMap.keySet());
+    }
+
 }

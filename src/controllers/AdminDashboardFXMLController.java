@@ -6,11 +6,13 @@ import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.FlowPane;
 import models.Quiz;
 import models.QuizResult;
 import models.Student;
@@ -32,6 +34,7 @@ public class AdminDashboardFXMLController implements Initializable {
     public TableColumn<Student , String> phonecol;
     public TableColumn<Student , Character> gendercol;
     public TableView<Student> table;
+    public FlowPane pieChartContainer;
     private Quiz selectedQuiz;
 
 
@@ -41,6 +44,9 @@ public class AdminDashboardFXMLController implements Initializable {
         this.emailcol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         this.phonecol.setCellValueFactory(new PropertyValueFactory<>("mobile"));
         this.gendercol.setCellValueFactory(new PropertyValueFactory<>("gender"));
+
+
+
     }
 
     private void setupBarChart(){
@@ -86,5 +92,34 @@ public class AdminDashboardFXMLController implements Initializable {
         List<Student> students = QuizResult.getStudents(this.selectedQuiz);
         this.table.getItems().clear();
         this.table.getItems().addAll(students);
+    }
+
+    public void onRowClick(MouseEvent mouseEvent) {
+        Student student = table.getSelectionModel().getSelectedItem();
+        int numberOfTotalQuestions = this.selectedQuiz.getNumberOfQuestions();
+        List result = QuizResult.getResult(student);
+        System.out.println(result);
+        System.out.println(numberOfTotalQuestions);
+        renderPieChart(result , numberOfTotalQuestions);
+
+    }
+
+    private void renderPieChart(List<QuizResult> quizResults , Integer numberOfTotalQuestions ){
+        pieChartContainer.getChildren().clear();
+        for(QuizResult quizResult : quizResults){
+            PieChart pieChart  = new PieChart();
+            int rigth = quizResult.getRightAnswers();
+            int wrong = numberOfTotalQuestions - rigth;
+            pieChart.setTitle("Attemped On :" + quizResult.getTimestamp());
+            pieChart.getData().add(new PieChart.Data
+                    ("Right Answers ("+rigth+")"
+                    , rigth));
+            pieChart.getData().add(new PieChart.Data
+                    ("Wrong Answers ("+wrong+")"
+                            , wrong));
+
+            pieChartContainer.getChildren().add(pieChart);
+
+        }
     }
 }

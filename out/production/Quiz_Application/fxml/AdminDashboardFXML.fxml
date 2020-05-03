@@ -9,8 +9,8 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.VBox?>
-
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdminDashboardFXMLController">
    <children>
@@ -26,13 +26,13 @@
                       <NumberAxis side="LEFT" />
                     </yAxis>
                   </BarChart>
-                  <SplitPane dividerPositions="0.6402877697841727" minHeight="400.0" prefHeight="900.0" prefWidth="200.0">
+                  <SplitPane dividerPositions="0.5" minHeight="800.0" prefHeight="900.0" prefWidth="200.0">
                     <items>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                            <children>
                               <ScrollPane fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <content>
-                                    <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0">
+                                    <TableView fx:id="table" onMouseClicked="#onRowClick" prefHeight="200.0" prefWidth="200.0">
                                       <columns>
                                         <TableColumn fx:id="idcol" prefWidth="75.0" text="ID" />
                                         <TableColumn fx:id="namecol" prefWidth="75.0" text="Name" />
@@ -48,7 +48,18 @@
                               </ScrollPane>
                            </children>
                         </AnchorPane>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                           <children>
+                              <ScrollPane fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <content>
+                                    <FlowPane fx:id="pieChartContainer" hgap="10.0" prefHeight="200.0" prefWidth="200.0" vgap="10.0">
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </FlowPane>
+                                 </content>
+                              </ScrollPane>
+                           </children></AnchorPane>
                     </items>
                   </SplitPane>
                </children>
