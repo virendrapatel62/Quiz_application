@@ -46,6 +46,8 @@ public class LoginController implements Initializable {
     private void loginAdmin(ActionEvent event) {
         String email = adminEmail.getText();
         String password = adminPassword.getText();
+        this.adminEmail.setText("admin@gmail.com");
+        this.adminPassword.setText("123456");
         if(email.trim().equalsIgnoreCase(AdminEmailPassword.email) && password.trim().equalsIgnoreCase(AdminEmailPassword.password)){
             
             try {

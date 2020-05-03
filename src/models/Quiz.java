@@ -110,7 +110,7 @@ public class Quiz {
 
         String query = String.
                 format("SELECT %s.%s , %s  ," +
-                                " %s , %s , " +
+                                " %s.%s , %s , " +
                                 "%s , %s ," +
                                 " %s , %s , \n" +
                                 "%s\n" +
@@ -118,7 +118,9 @@ public class Quiz {
                         MetaData.TABLE_NAME,
                         MetaData.QUIZ_ID,
                         MetaData.TITLe,
+                        Question.MetaData.TABLE_NAME,
                         Question.MetaData.QUESTION_ID,
+
                         Question.MetaData.QUESTION,
                         Question.MetaData.OPTION1,
                         Question.MetaData.OPTION2,
