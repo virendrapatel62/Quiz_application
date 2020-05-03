@@ -32,7 +32,10 @@ public class Test {
 //        student.setId(5);
 //        System.out.println(QuizResult.getQuezzes(student));
 
-        System.out.println(Quiz.getStudentCount());;
+        Quiz quiz
+                = new Quiz();
+        quiz.setQuizId(8);
+        System.out.println(QuizResult.getStudents(quiz));;
 
     }
 }

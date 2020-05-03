@@ -1,11 +1,12 @@
 package models;
 
 import constants.DatabaseConstants;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.*;
+import java.util.*;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 public class QuizResult {
     private Integer id ;
@@ -251,6 +252,57 @@ public class QuizResult {
         }
 
         return data;
+    }
+
+    public static List<Student> getStudents(Quiz quiz){
+        List<Student> students = new ArrayList();
+        String raw = "SELECT st.%s , st.%s ,\n" +
+                "st.%s , st.%s ,\n" +
+                "st.%s , st.%s \n" +
+                "FROM %s  As qr\n" +
+                "join %s as st\n" +
+                "on st.%s = qr.%s\n" +
+                "WHERE %s = ? GROUP by %s";
+        String query = String.format(raw ,
+                Student.MetaData.ID,
+                Student.MetaData.FIRST_NAME,
+                Student.MetaData.LAST_NAME,
+                Student.MetaData.MOBILE,
+                Student.MetaData.EMAIL,
+                Student.MetaData.GENDER,
+                MetaData.TABLE_NAME,
+                Student.MetaData.TABLE_NAME,
+                Student.MetaData.ID,
+                MetaData.STUDENT_ID,
+                MetaData.QUIZ_ID,
+                MetaData.STUDENT_ID
+        );
+
+        try{
+            String connectionUrl = DatabaseConstants.CONNECTION_URL;
+            Class.forName(DatabaseConstants.DRIVER_CLASS);
+            Connection connection = DriverManager.getConnection(connectionUrl);
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1 , quiz.getQuizId());
+            ResultSet result  =  ps.executeQuery();
+
+            while (result.next()){
+                Student student = new Student();
+                student.setId(result.getInt(1));
+                student.setFirstName(result.getString(2));
+                student.setLastName(result.getString(3));
+                student.setMobile(result.getString(4));
+                student.setEmail(result.getString(5));
+                student.setGender(result.getString(6).charAt(0));
+                students.add(student);
+            }
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+        }
+
+        return students;
+
     }
 
     private boolean  saveQuizResultDetails(Map<Question , String> userAnswers){
