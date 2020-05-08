@@ -55,8 +55,6 @@ public class AdminDashboardFXMLController implements Initializable {
         ObservableList<XYChart.Series> series = this.barchart.getData();
         XYChart.Series series1 = new XYChart.Series();
 
-
-
         for(Quiz  quiz : quizzes){
             XYChart.Data data1 = new XYChart.Data(
                     quiz.getTitle() + "("+data.get(quiz)+")" , data.get(quiz));
